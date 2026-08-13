@@ -1,0 +1,25 @@
+-- setup_banco.sql
+-- Práticas em Desenvolvimento de Sistemas II — IFSC
+-- Rode este script UMA VEZ para preparar o banco da prática.
+-- No MySQL Workbench, ou no terminal:  mysql -u root -p < setup_banco.sql
+
+-- 1. cria o bancogd
+CREATE DATABASE IF NOT EXISTS trainup CHARACTER SET utf8mb4;
+
+-- 2. cria o usuário que o programa Java vai usar
+CREATE USER IF NOT EXISTS 'aluno_cd'@'localhost' IDENTIFIED BY 'aluno_pw';
+GRANT ALL PRIVILEGES ON trainup.* TO 'aluno_cd'@'localhost';
+FLUSH PRIVILEGES;
+
+-- 3. cria a tabela e alguns dados de exemplo
+USE trainup;
+CREATE TABLE IF NOT EXISTS usuario (
+    id    INT PRIMARY KEY AUTO_INCREMENT,
+    nome  VARCHAR(80) NOT NULL,
+    email VARCHAR(100),
+    idade  INT
+);
+
+
+
+SELECT * FROM usuario;
