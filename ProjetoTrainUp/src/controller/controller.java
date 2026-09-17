@@ -1,259 +1,1601 @@
 package controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import java.sql.SQLException;
+
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import dao.ExercicioDAO;
+import dao.TreinoDAO;
 import dao.UsuarioDAO;
+
+import model.Exercicio;
+import model.Treino;
 import model.Usuario;
+
+import view.TelaAdicionarExercicio;
 import view.TelaCadastro;
+import view.TelaCriarTreino;
+import view.TelaDetalhesTreino;
+import view.TelaHome;
+import view.TelaInicial;
+import view.TelaLogin;
+import view.TelaTreinos;
 
-public class controller {
+public class controller
+        implements ActionListener {
 
-    private UsuarioDAO usuarioDAO;
+
+    // =============================================
+    // TELAS
+    // =============================================
+
+    private TelaInicial telaInicial;
+
+    private TelaLogin telaLogin;
+
     private TelaCadastro telaCadastro;
 
-    public controller(UsuarioDAO usuarioDAO, TelaCadastro telaCadastro) {
+    private TelaHome telaHome;
 
-        this.usuarioDAO = usuarioDAO;
-        this.telaCadastro = telaCadastro;
+    private TelaTreinos telaTreinos;
 
-        configurarEventos();
+    private TelaCriarTreino telaCriarTreino;
+
+    private TelaDetalhesTreino telaDetalhesTreino;
+
+    private TelaAdicionarExercicio telaAdicionarExercicio;
+
+
+    // =============================================
+    // DAOS
+    // =============================================
+
+    private UsuarioDAO usuarioDAO;
+
+    private TreinoDAO treinoDAO;
+
+    private ExercicioDAO exercicioDAO;
+
+
+    // =============================================
+    // OBJETOS ATUAIS
+    // =============================================
+
+    private Usuario usuarioLogado;
+
+    private Treino treinoSelecionado;
+
+    private Exercicio exercicioEditando;
+
+
+    // =============================================
+    // CONSTRUTOR
+    // =============================================
+
+    public controller() {
+
+        usuarioDAO =
+                new UsuarioDAO();
+
+        treinoDAO =
+                new TreinoDAO();
+
+        exercicioDAO =
+                new ExercicioDAO();
+
+
+        abrirTelaInicial();
     }
-    private void configurarEventos() {
 
-        telaCadastro.getBtnCadastrar().addActionListener(e -> cadastrarUsuario());
 
+    // =============================================
+    // TELA INICIAL
+    // =============================================
+
+    private void abrirTelaInicial() {
+
+        fecharTelas();
+
+
+        telaInicial =
+                new TelaInicial();
+
+
+        telaInicial
+                .getBtnEntrar()
+                .addActionListener(this);
+
+
+        telaInicial
+                .getBtnCadastrar()
+                .addActionListener(this);
+
+
+        telaInicial.setVisible(
+                true
+        );
     }
 
-    private void cadastrarUsuario() {
 
-        try {
+    // =============================================
+    // LOGIN
+    // =============================================
 
-            String nome = telaCadastro.getTxtNome().getText().trim();
+    private void abrirTelaLogin() {
 
-            String email = telaCadastro.getTxtEmail().getText().trim();
-
-            String idadeTexto =
-                    telaCadastro.getTxtIdade().getText().trim();
-
-            String senha =
-                    new String(telaCadastro.getTxtSenha().getPassword());
-
-            String confirmarSenha =
-                    new String(telaCadastro.getTxtConfirmarSenha().getPassword());
+        fecharTelas();
 
 
-            // ==========================================
-            // VALIDAR NOME
-            // ==========================================
-
-            if (nome.isEmpty()) {
-
-                JOptionPane.showMessageDialog(
-                        telaCadastro,
-                        "Digite seu nome.",
-                        "Atenção",
-                        JOptionPane.WARNING_MESSAGE
-                );
-
-                telaCadastro.getTxtNome().requestFocus();
-
-                return;
-            }
+        telaLogin =
+                new TelaLogin();
 
 
-            // ==========================================
-            // VALIDAR EMAIL
-            // ==========================================
-
-            if (email.isEmpty()) {
-
-                JOptionPane.showMessageDialog(
-                        telaCadastro,
-                        "Digite seu e-mail.",
-                        "Atenção",
-                        JOptionPane.WARNING_MESSAGE
-                );
-
-                telaCadastro.getTxtEmail().requestFocus();
-
-                return;
-            }
+        telaLogin
+                .getBtnEntrar()
+                .addActionListener(this);
 
 
-            // ==========================================
-            // VALIDAR IDADE
-            // ==========================================
-
-            if (idadeTexto.isEmpty()) {
-
-                JOptionPane.showMessageDialog(
-                        telaCadastro,
-                        "Digite sua idade.",
-                        "Atenção",
-                        JOptionPane.WARNING_MESSAGE
-                );
-
-                telaCadastro.getTxtIdade().requestFocus();
-
-                return;
-            }
-
-            int idade;
-
-            try {
-
-                idade = Integer.parseInt(idadeTexto);
-
-            } catch (NumberFormatException e) {
-
-                JOptionPane.showMessageDialog(
-                        telaCadastro,
-                        "A idade deve conter apenas números.",
-                        "Erro",
-                        JOptionPane.ERROR_MESSAGE
-                );
-
-                telaCadastro.getTxtIdade().requestFocus();
-
-                return;
-            }
+        telaLogin
+                .getBtnCadastrar()
+                .addActionListener(this);
 
 
-            if (idade <= 0 || idade > 120) {
-
-                JOptionPane.showMessageDialog(
-                        telaCadastro,
-                        "Digite uma idade válida.",
-                        "Erro",
-                        JOptionPane.ERROR_MESSAGE
-                );
-
-                telaCadastro.getTxtIdade().requestFocus();
-
-                return;
-            }
+        telaLogin
+                .getBtnVoltar()
+                .addActionListener(this);
 
 
-            // ==========================================
-            // VALIDAR SENHA
-            // ==========================================
-
-            if (senha.isEmpty()) {
-
-                JOptionPane.showMessageDialog(
-                        telaCadastro,
-                        "Digite uma senha.",
-                        "Atenção",
-                        JOptionPane.WARNING_MESSAGE
-                );
-
-                telaCadastro.getTxtSenha().requestFocus();
-
-                return;
-            }
+        telaLogin.setVisible(
+                true
+        );
+    }
 
 
-            if (senha.length() < 6) {
+    // =============================================
+    // CADASTRO
+    // =============================================
 
-                JOptionPane.showMessageDialog(
-                        telaCadastro,
-                        "A senha deve ter pelo menos 6 caracteres.",
-                        "Erro",
-                        JOptionPane.ERROR_MESSAGE
-                );
+    private void abrirTelaCadastro() {
 
-                telaCadastro.getTxtSenha().requestFocus();
-
-                return;
-            }
+        fecharTelas();
 
 
-            // ==========================================
-            // CONFIRMAR SENHA
-            // ==========================================
-
-            if (!senha.equals(confirmarSenha)) {
-
-                JOptionPane.showMessageDialog(
-                        telaCadastro,
-                        "As senhas não são iguais.",
-                        "Erro",
-                        JOptionPane.ERROR_MESSAGE
-                );
-
-                telaCadastro.getTxtConfirmarSenha().requestFocus();
-
-                return;
-            }
+        telaCadastro =
+                new TelaCadastro();
 
 
-            // ==========================================
-            // CRIAR USUÁRIO
-            // ==========================================
+        telaCadastro
+                .getBtnCadastrar()
+                .addActionListener(this);
 
-            Usuario usuario = new Usuario(
-                    nome,
-                    email,
-                    senha,
-                    idade
+
+        telaCadastro.setVisible(
+                true
+        );
+    }
+
+
+    // =============================================
+    // HOME
+    // =============================================
+
+    private void abrirTelaHome(
+            Usuario usuario
+    ) {
+
+        fecharTelas();
+
+
+        telaHome =
+                new TelaHome();
+
+
+        telaHome.setNomeUsuario(
+                usuario.getNome()
+        );
+
+
+        telaHome
+                .getBtnTreinos()
+                .addActionListener(this);
+
+
+        telaHome
+                .getBtnExercicios()
+                .addActionListener(this);
+
+
+        telaHome
+                .getBtnProgresso()
+                .addActionListener(this);
+
+
+        telaHome
+                .getBtnSair()
+                .addActionListener(this);
+
+
+        telaHome.setVisible(
+                true
+        );
+    }
+
+
+    // =============================================
+    // TREINOS
+    // =============================================
+
+    private void abrirTelaTreinos() {
+
+        if (usuarioLogado == null) {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Nenhum usuário está logado."
             );
 
 
-            // ==========================================
-            // SALVAR NO BANCO
-            // ==========================================
+            abrirTelaLogin();
 
-            usuarioDAO.inserir(usuario);
+            return;
+        }
+
+
+        fecharTelas();
+
+
+        treinoSelecionado = null;
+
+
+        telaTreinos =
+                new TelaTreinos();
+
+
+        telaTreinos
+                .getBtnNovoTreino()
+                .addActionListener(this);
+
+
+        telaTreinos
+                .getBtnAbrir()
+                .addActionListener(this);
+
+
+        telaTreinos
+                .getBtnExcluir()
+                .addActionListener(this);
+
+
+        telaTreinos
+                .getBtnVoltar()
+                .addActionListener(this);
+
+
+        telaTreinos.setVisible(
+                true
+        );
+
+
+        carregarTreinos();
+    }
+
+
+    // =============================================
+    // CRIAR TREINO
+    // =============================================
+
+    private void abrirTelaCriarTreino() {
+
+        fecharTelas();
+
+
+        telaCriarTreino =
+                new TelaCriarTreino();
+
+
+        telaCriarTreino
+                .getBtnSalvar()
+                .addActionListener(this);
+
+
+        telaCriarTreino
+                .getBtnVoltar()
+                .addActionListener(this);
+
+
+        telaCriarTreino.setVisible(
+                true
+        );
+    }
+
+
+    // =============================================
+    // DETALHES DO TREINO
+    // =============================================
+
+    private void abrirTelaDetalhesTreino(
+            Treino treino
+    ) {
+
+        if (treino == null) {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Nenhum treino selecionado."
+            );
+
+            return;
+        }
+
+
+        treinoSelecionado =
+                treino;
+
+
+        fecharTelas();
+
+
+        telaDetalhesTreino =
+                new TelaDetalhesTreino(
+                        treinoSelecionado
+                );
+
+
+        telaDetalhesTreino
+                .getBtnAdicionarExercicio()
+                .addActionListener(this);
+
+
+        telaDetalhesTreino
+                .getBtnEditar()
+                .addActionListener(this);
+
+
+        telaDetalhesTreino
+                .getBtnExcluir()
+                .addActionListener(this);
+
+
+        telaDetalhesTreino
+                .getBtnVoltar()
+                .addActionListener(this);
+
+
+        telaDetalhesTreino.setVisible(
+                true
+        );
+
+
+        carregarExercicios();
+    }
+
+
+    // =============================================
+    // ADICIONAR EXERCÍCIO
+    // =============================================
+
+    private void abrirTelaAdicionarExercicio() {
+
+        exercicioEditando =
+                null;
+
+
+        fecharTelas();
+
+
+        telaAdicionarExercicio =
+                new TelaAdicionarExercicio();
+
+
+        telaAdicionarExercicio
+                .getBtnSalvar()
+                .addActionListener(this);
+
+
+        telaAdicionarExercicio
+                .getBtnVoltar()
+                .addActionListener(this);
+
+
+        telaAdicionarExercicio.setVisible(
+                true
+        );
+    }
+
+
+    // =============================================
+    // EDITAR EXERCÍCIO
+    // =============================================
+
+    private void abrirTelaEditarExercicio(
+            Exercicio exercicio
+    ) {
+
+        if (exercicio == null) {
+
+            JOptionPane.showMessageDialog(
+                    telaDetalhesTreino,
+                    "Selecione um exercício."
+            );
+
+            return;
+        }
+
+
+        exercicioEditando =
+                exercicio;
+
+
+        fecharTelas();
+
+
+        telaAdicionarExercicio =
+                new TelaAdicionarExercicio();
+
+
+        telaAdicionarExercicio
+                .getTxtNome()
+                .setText(
+                        exercicio.getNome()
+                );
+
+
+        telaAdicionarExercicio
+                .getTxtSeries()
+                .setText(
+                        String.valueOf(
+                                exercicio.getSeries()
+                        )
+                );
+
+
+        telaAdicionarExercicio
+                .getTxtRepeticoes()
+                .setText(
+                        String.valueOf(
+                                exercicio.getRepeticoes()
+                        )
+                );
+
+
+        telaAdicionarExercicio
+                .getBtnSalvar()
+                .setText(
+                        "SALVAR ALTERAÇÕES"
+                );
+
+
+        telaAdicionarExercicio
+                .getBtnSalvar()
+                .addActionListener(this);
+
+
+        telaAdicionarExercicio
+                .getBtnVoltar()
+                .addActionListener(this);
+
+
+        telaAdicionarExercicio.setVisible(
+                true
+        );
+    }
+
+
+    // =============================================
+    // CARREGAR TREINOS
+    // =============================================
+
+    private void carregarTreinos() {
+
+        if (telaTreinos == null
+                || usuarioLogado == null) {
+
+            return;
+        }
+
+
+        try {
+
+            List<Treino> treinos =
+                    treinoDAO.listarPorUsuario(
+                            usuarioLogado.getId()
+                    );
+
+
+            telaTreinos.limparTreinos();
+
+
+            for (Treino treino : treinos) {
+
+                telaTreinos.adicionarTreino(
+                        treino
+                );
+            }
+
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(
+                    telaTreinos,
+                    "Erro ao carregar treinos:\n"
+                            + erro.getMessage()
+            );
+
+
+            erro.printStackTrace();
+        }
+    }
+
+
+    // =============================================
+    // CARREGAR EXERCÍCIOS
+    // =============================================
+
+    private void carregarExercicios() {
+
+        if (telaDetalhesTreino == null
+                || treinoSelecionado == null) {
+
+            return;
+        }
+
+
+        try {
+
+            List<Exercicio> exercicios =
+                    exercicioDAO.listarPorTreino(
+                            treinoSelecionado.getId()
+                    );
+
+
+            telaDetalhesTreino
+                    .limparExercicios();
+
+
+            for (Exercicio exercicio
+                    : exercicios) {
+
+                telaDetalhesTreino
+                        .adicionarExercicio(
+                                exercicio
+                        );
+            }
+
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(
+                    telaDetalhesTreino,
+                    "Erro ao carregar exercícios:\n"
+                            + erro.getMessage()
+            );
+
+
+            erro.printStackTrace();
+        }
+    }
+
+
+    // =============================================
+    // SALVAR TREINO
+    // =============================================
+
+    private void salvarTreino() {
+
+        String nome =
+                telaCriarTreino
+                        .getTxtNome()
+                        .getText()
+                        .trim();
+
+
+        if (nome.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    telaCriarTreino,
+                    "Digite o nome do treino."
+            );
+
+            return;
+        }
+
+
+        if (usuarioLogado == null) {
+
+            JOptionPane.showMessageDialog(
+                    telaCriarTreino,
+                    "Nenhum usuário está logado."
+            );
+
+            abrirTelaLogin();
+
+            return;
+        }
+
+
+        Treino treino =
+                new Treino(
+                        nome,
+                        usuarioLogado.getId()
+                );
+
+
+        try {
+
+            treinoDAO.inserir(
+                    treino
+            );
+
+
+            JOptionPane.showMessageDialog(
+                    telaCriarTreino,
+                    "Treino criado com sucesso!"
+            );
+
+
+            abrirTelaTreinos();
+
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(
+                    telaCriarTreino,
+                    "Erro ao salvar treino:\n"
+                            + erro.getMessage()
+            );
+
+
+            erro.printStackTrace();
+        }
+    }
+
+
+    // =============================================
+    // EXCLUIR TREINO
+    // =============================================
+
+    private void excluirTreino() {
+
+        Treino treino =
+                telaTreinos
+                        .getTreinoSelecionado();
+
+
+        if (treino == null) {
+
+            JOptionPane.showMessageDialog(
+                    telaTreinos,
+                    "Selecione um treino para excluir."
+            );
+
+            return;
+        }
+
+
+        int resposta =
+                JOptionPane.showConfirmDialog(
+                        telaTreinos,
+                        "Deseja excluir o treino \""
+                                + treino.getNome()
+                                + "\"?",
+                        "Excluir treino",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+
+        if (resposta
+                != JOptionPane.YES_OPTION) {
+
+            return;
+        }
+
+
+        try {
+
+            treinoDAO.excluir(
+                    treino.getId()
+            );
+
+
+            JOptionPane.showMessageDialog(
+                    telaTreinos,
+                    "Treino excluído com sucesso!"
+            );
+
+
+            carregarTreinos();
+
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(
+                    telaTreinos,
+                    "Erro ao excluir treino:\n"
+                            + erro.getMessage()
+            );
+
+
+            erro.printStackTrace();
+        }
+    }
+
+
+    // =============================================
+    // SALVAR EXERCÍCIO
+    // =============================================
+
+    private void salvarExercicio() {
+
+        String nome =
+                telaAdicionarExercicio
+                        .getTxtNome()
+                        .getText()
+                        .trim();
+
+
+        String seriesTexto =
+                telaAdicionarExercicio
+                        .getTxtSeries()
+                        .getText()
+                        .trim();
+
+
+        String repeticoesTexto =
+                telaAdicionarExercicio
+                        .getTxtRepeticoes()
+                        .getText()
+                        .trim();
+
+
+        if (nome.isEmpty()
+                || seriesTexto.isEmpty()
+                || repeticoesTexto.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    telaAdicionarExercicio,
+                    "Preencha todos os campos."
+            );
+
+            return;
+        }
+
+
+        try {
+
+            int series =
+                    Integer.parseInt(
+                            seriesTexto
+                    );
+
+
+            int repeticoes =
+                    Integer.parseInt(
+                            repeticoesTexto
+                    );
+
+
+            if (series <= 0
+                    || repeticoes <= 0) {
+
+                JOptionPane.showMessageDialog(
+                        telaAdicionarExercicio,
+                        "Séries e repetições devem ser maiores que zero."
+                );
+
+                return;
+            }
+
+
+            // =====================================
+            // NOVO EXERCÍCIO
+            // =====================================
+
+            if (exercicioEditando == null) {
+
+                Exercicio exercicio =
+                        new Exercicio(
+                                nome,
+                                series,
+                                repeticoes,
+                                treinoSelecionado.getId()
+                        );
+
+
+                exercicioDAO.inserir(
+                        exercicio
+                );
+
+
+                JOptionPane.showMessageDialog(
+                        telaAdicionarExercicio,
+                        "Exercício adicionado com sucesso!"
+                );
+
+            }
+
+            // =====================================
+            // EDITANDO
+            // =====================================
+
+            else {
+
+                exercicioEditando.setNome(
+                        nome
+                );
+
+
+                exercicioEditando.setSeries(
+                        series
+                );
+
+
+                exercicioEditando.setRepeticoes(
+                        repeticoes
+                );
+
+
+                exercicioDAO.alterar(
+                        exercicioEditando
+                );
+
+
+                JOptionPane.showMessageDialog(
+                        telaAdicionarExercicio,
+                        "Exercício alterado com sucesso!"
+                );
+            }
+
+
+            exercicioEditando =
+                    null;
+
+
+            abrirTelaDetalhesTreino(
+                    treinoSelecionado
+            );
+
+
+        } catch (NumberFormatException erro) {
+
+            JOptionPane.showMessageDialog(
+                    telaAdicionarExercicio,
+                    "Séries e repetições devem ser números."
+            );
+
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(
+                    telaAdicionarExercicio,
+                    "Erro ao salvar exercício:\n"
+                            + erro.getMessage()
+            );
+
+
+            erro.printStackTrace();
+        }
+    }
+
+
+    // =============================================
+    // EXCLUIR EXERCÍCIO
+    // =============================================
+
+    private void excluirExercicio() {
+
+        Exercicio exercicio =
+                telaDetalhesTreino
+                        .getExercicioSelecionado();
+
+
+        if (exercicio == null) {
+
+            JOptionPane.showMessageDialog(
+                    telaDetalhesTreino,
+                    "Selecione um exercício."
+            );
+
+            return;
+        }
+
+
+        int resposta =
+                JOptionPane.showConfirmDialog(
+                        telaDetalhesTreino,
+                        "Deseja excluir \""
+                                + exercicio.getNome()
+                                + "\"?",
+                        "Excluir exercício",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+
+        if (resposta
+                != JOptionPane.YES_OPTION) {
+
+            return;
+        }
+
+
+        try {
+
+            exercicioDAO.excluir(
+                    exercicio.getId()
+            );
+
+
+            JOptionPane.showMessageDialog(
+                    telaDetalhesTreino,
+                    "Exercício excluído com sucesso!"
+            );
+
+
+            carregarExercicios();
+
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(
+                    telaDetalhesTreino,
+                    "Erro ao excluir exercício:\n"
+                            + erro.getMessage()
+            );
+
+
+            erro.printStackTrace();
+        }
+    }
+
+
+    // =============================================
+    // LOGIN
+    // =============================================
+
+    private void fazerLogin() {
+
+        String email =
+                telaLogin
+                        .getTxtEmail()
+                        .getText()
+                        .trim();
+
+
+        String senha =
+                new String(
+                        telaLogin
+                                .getTxtSenha()
+                                .getPassword()
+                );
+
+
+        if (email.isEmpty()
+                || senha.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    telaLogin,
+                    "Preencha o e-mail e a senha."
+            );
+
+            return;
+        }
+
+
+        try {
+
+            Usuario usuario =
+                    usuarioDAO.buscarPorEmail(
+                            email
+                    );
+
+
+            if (usuario == null) {
+
+                JOptionPane.showMessageDialog(
+                        telaLogin,
+                        "E-mail não cadastrado."
+                );
+
+                return;
+            }
+
+
+            if (!usuario
+                    .getSenha()
+                    .equals(senha)) {
+
+                JOptionPane.showMessageDialog(
+                        telaLogin,
+                        "Senha incorreta."
+                );
+
+                return;
+            }
+
+
+            usuarioLogado =
+                    usuario;
+
+
+            JOptionPane.showMessageDialog(
+                    telaLogin,
+                    "Login realizado com sucesso!"
+            );
+
+
+            abrirTelaHome(
+                    usuarioLogado
+            );
+
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(
+                    telaLogin,
+                    "Erro ao acessar o banco:\n"
+                            + erro.getMessage()
+            );
+
+
+            erro.printStackTrace();
+        }
+    }
+
+
+    // =============================================
+    // CADASTRAR USUÁRIO
+    // =============================================
+
+    private void cadastrarUsuario() {
+
+        String nome =
+                telaCadastro
+                        .getTxtNome()
+                        .getText()
+                        .trim();
+
+
+        String email =
+                telaCadastro
+                        .getTxtEmail()
+                        .getText()
+                        .trim();
+
+
+        String idadeTexto =
+                telaCadastro
+                        .getTxtIdade()
+                        .getText()
+                        .trim();
+
+
+        String senha =
+                new String(
+                        telaCadastro
+                                .getTxtSenha()
+                                .getPassword()
+                );
+
+
+        String confirmarSenha =
+                new String(
+                        telaCadastro
+                                .getTxtConfirmarSenha()
+                                .getPassword()
+                );
+
+
+        if (nome.isEmpty()
+                || email.isEmpty()
+                || idadeTexto.isEmpty()
+                || senha.isEmpty()
+                || confirmarSenha.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    telaCadastro,
+                    "Preencha todos os campos."
+            );
+
+            return;
+        }
+
+
+        if (senha.length() < 6) {
+
+            JOptionPane.showMessageDialog(
+                    telaCadastro,
+                    "A senha deve possuir pelo menos 6 caracteres."
+            );
+
+            return;
+        }
+
+
+        if (!senha.equals(
+                confirmarSenha
+        )) {
+
+            JOptionPane.showMessageDialog(
+                    telaCadastro,
+                    "As senhas não são iguais."
+            );
+
+            return;
+        }
+
+
+        try {
+
+            int idade =
+                    Integer.parseInt(
+                            idadeTexto
+                    );
+
+
+            if (idade <= 0
+                    || idade > 120) {
+
+                JOptionPane.showMessageDialog(
+                        telaCadastro,
+                        "Digite uma idade válida."
+                );
+
+                return;
+            }
+
+
+            Usuario existente =
+                    usuarioDAO.buscarPorEmail(
+                            email
+                    );
+
+
+            if (existente != null) {
+
+                JOptionPane.showMessageDialog(
+                        telaCadastro,
+                        "Este e-mail já está cadastrado."
+                );
+
+                return;
+            }
+
+
+            Usuario usuario =
+                    new Usuario(
+                            nome,
+                            email,
+                            senha,
+                            idade
+                    );
+
+
+            usuarioDAO.inserir(
+                    usuario
+            );
 
 
             JOptionPane.showMessageDialog(
                     telaCadastro,
-                    "Cadastro realizado com sucesso!",
-                    "TrainUp",
-                    JOptionPane.INFORMATION_MESSAGE
+                    "Cadastro realizado com sucesso!"
             );
 
 
-            // Limpar campos
-
-            telaCadastro.getTxtNome().setText("");
-
-            telaCadastro.getTxtEmail().setText("");
-
-            telaCadastro.getTxtIdade().setText("");
-
-            telaCadastro.getTxtSenha().setText("");
-
-            telaCadastro.getTxtConfirmarSenha().setText("");
-
-            telaCadastro.getTxtNome().requestFocus();
+            abrirTelaLogin();
 
 
-        } catch (SQLException e) {
+        } catch (NumberFormatException erro) {
 
-            if (e.getMessage().contains("Duplicate")) {
+            JOptionPane.showMessageDialog(
+                    telaCadastro,
+                    "A idade deve conter apenas números."
+            );
 
-                JOptionPane.showMessageDialog(
-                        telaCadastro,
-                        "Este e-mail já está cadastrado.",
-                        "Erro",
-                        JOptionPane.ERROR_MESSAGE
-                );
 
-            } else {
+        } catch (SQLException erro) {
 
-                JOptionPane.showMessageDialog(
-                        telaCadastro,
-                        "Erro ao cadastrar usuário:\n"
-                        + e.getMessage(),
-                        "Erro",
-                        JOptionPane.ERROR_MESSAGE
-                );
+            JOptionPane.showMessageDialog(
+                    telaCadastro,
+                    "Erro ao cadastrar:\n"
+                            + erro.getMessage()
+            );
 
-                e.printStackTrace();
+
+            erro.printStackTrace();
+        }
+    }
+
+
+    // =============================================
+    // ACTION PERFORMED
+    // =============================================
+
+    @Override
+    public void actionPerformed(
+            ActionEvent e
+    ) {
+
+        Object botao =
+                e.getSource();
+
+
+        // =========================================
+        // TELA INICIAL
+        // =========================================
+
+        if (telaInicial != null) {
+
+            if (botao
+                    == telaInicial.getBtnEntrar()) {
+
+                abrirTelaLogin();
+
+                return;
             }
+
+
+            if (botao
+                    == telaInicial.getBtnCadastrar()) {
+
+                abrirTelaCadastro();
+
+                return;
+            }
+        }
+
+
+        // =========================================
+        // LOGIN
+        // =========================================
+
+        if (telaLogin != null) {
+
+            if (botao
+                    == telaLogin.getBtnEntrar()) {
+
+                fazerLogin();
+
+                return;
+            }
+
+
+            if (botao
+                    == telaLogin.getBtnCadastrar()) {
+
+                abrirTelaCadastro();
+
+                return;
+            }
+
+
+            if (botao
+                    == telaLogin.getBtnVoltar()) {
+
+                abrirTelaInicial();
+
+                return;
+            }
+        }
+
+
+        // =========================================
+        // CADASTRO
+        // =========================================
+
+        if (telaCadastro != null) {
+
+            if (botao
+                    == telaCadastro.getBtnCadastrar()) {
+
+                cadastrarUsuario();
+
+                return;
+            }
+        }
+
+
+        // =========================================
+        // HOME
+        // =========================================
+
+        if (telaHome != null) {
+
+            if (botao
+                    == telaHome.getBtnTreinos()) {
+
+                abrirTelaTreinos();
+
+                return;
+            }
+
+
+            if (botao
+                    == telaHome.getBtnExercicios()) {
+
+                JOptionPane.showMessageDialog(
+                        telaHome,
+                        "Tela geral de exercícios será criada depois."
+                );
+
+                return;
+            }
+
+
+            if (botao
+                    == telaHome.getBtnProgresso()) {
+
+                JOptionPane.showMessageDialog(
+                        telaHome,
+                        "Tela de progresso será criada depois."
+                );
+
+                return;
+            }
+
+
+            if (botao
+                    == telaHome.getBtnSair()) {
+
+                usuarioLogado = null;
+
+                treinoSelecionado = null;
+
+                exercicioEditando = null;
+
+
+                abrirTelaInicial();
+
+                return;
+            }
+        }
+
+
+        // =========================================
+        // TREINOS
+        // =========================================
+
+        if (telaTreinos != null) {
+
+            if (botao
+                    == telaTreinos.getBtnNovoTreino()) {
+
+                abrirTelaCriarTreino();
+
+                return;
+            }
+
+
+            if (botao
+                    == telaTreinos.getBtnAbrir()) {
+
+                Treino treino =
+                        telaTreinos
+                                .getTreinoSelecionado();
+
+
+                if (treino == null) {
+
+                    JOptionPane.showMessageDialog(
+                            telaTreinos,
+                            "Selecione um treino."
+                    );
+
+                    return;
+                }
+
+
+                abrirTelaDetalhesTreino(
+                        treino
+                );
+
+                return;
+            }
+
+
+            if (botao
+                    == telaTreinos.getBtnExcluir()) {
+
+                excluirTreino();
+
+                return;
+            }
+
+
+            if (botao
+                    == telaTreinos.getBtnVoltar()) {
+
+                abrirTelaHome(
+                        usuarioLogado
+                );
+
+                return;
+            }
+        }
+
+
+        // =========================================
+        // CRIAR TREINO
+        // =========================================
+
+        if (telaCriarTreino != null) {
+
+            if (botao
+                    == telaCriarTreino.getBtnSalvar()) {
+
+                salvarTreino();
+
+                return;
+            }
+
+
+            if (botao
+                    == telaCriarTreino.getBtnVoltar()) {
+
+                abrirTelaTreinos();
+
+                return;
+            }
+        }
+
+
+        // =========================================
+        // DETALHES DO TREINO
+        // =========================================
+
+        if (telaDetalhesTreino != null) {
+
+            if (botao
+                    == telaDetalhesTreino
+                            .getBtnAdicionarExercicio()) {
+
+                abrirTelaAdicionarExercicio();
+
+                return;
+            }
+
+
+            if (botao
+                    == telaDetalhesTreino
+                            .getBtnEditar()) {
+
+                Exercicio exercicio =
+                        telaDetalhesTreino
+                                .getExercicioSelecionado();
+
+
+                abrirTelaEditarExercicio(
+                        exercicio
+                );
+
+                return;
+            }
+
+
+            if (botao
+                    == telaDetalhesTreino
+                            .getBtnExcluir()) {
+
+                excluirExercicio();
+
+                return;
+            }
+
+
+            if (botao
+                    == telaDetalhesTreino
+                            .getBtnVoltar()) {
+
+                abrirTelaTreinos();
+
+                return;
+            }
+        }
+
+
+        // =========================================
+        // ADICIONAR / EDITAR EXERCÍCIO
+        // =========================================
+
+        if (telaAdicionarExercicio != null) {
+
+            if (botao
+                    == telaAdicionarExercicio
+                            .getBtnSalvar()) {
+
+                salvarExercicio();
+
+                return;
+            }
+
+
+            if (botao
+                    == telaAdicionarExercicio
+                            .getBtnVoltar()) {
+
+                exercicioEditando = null;
+
+
+                abrirTelaDetalhesTreino(
+                        treinoSelecionado
+                );
+
+                return;
+            }
+        }
+    }
+
+
+    // =============================================
+    // FECHAR TELAS
+    // =============================================
+
+    private void fecharTelas() {
+
+        if (telaInicial != null) {
+
+            telaInicial.dispose();
+
+            telaInicial = null;
+        }
+
+
+        if (telaLogin != null) {
+
+            telaLogin.dispose();
+
+            telaLogin = null;
+        }
+
+
+        if (telaCadastro != null) {
+
+            telaCadastro.dispose();
+
+            telaCadastro = null;
+        }
+
+
+        if (telaHome != null) {
+
+            telaHome.dispose();
+
+            telaHome = null;
+        }
+
+
+        if (telaTreinos != null) {
+
+            telaTreinos.dispose();
+
+            telaTreinos = null;
+        }
+
+
+        if (telaCriarTreino != null) {
+
+            telaCriarTreino.dispose();
+
+            telaCriarTreino = null;
+        }
+
+
+        if (telaDetalhesTreino != null) {
+
+            telaDetalhesTreino.dispose();
+
+            telaDetalhesTreino = null;
+        }
+
+
+        if (telaAdicionarExercicio != null) {
+
+            telaAdicionarExercicio.dispose();
+
+            telaAdicionarExercicio = null;
         }
     }
 }
