@@ -15,20 +15,28 @@ CREATE TABLE IF NOT EXISTS usuario (
     idade INT
 );
 
-CREATE TABLE IF NOT EXISTS treino (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(80) NOT NULL,
-    foco VARCHAR(100),
+CREATE TABLE treino (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
     usuario_id INT NOT NULL,
 
-    FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+    CONSTRAINT fk_treino_usuario
+        FOREIGN KEY (usuario_id)
+        REFERENCES usuario(id)
+        ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS exercicio (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(80) NOT NULL,
-    repeticoes VARCHAR(100),
-    carga FLOAT
+CREATE TABLE exercicio (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    series INT NOT NULL,
+    repeticoes INT NOT NULL,
+    treino_id INT NOT NULL,
+
+    CONSTRAINT fk_exercicio_treino
+        FOREIGN KEY (treino_id)
+        REFERENCES treino(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS treino_exercicio (
