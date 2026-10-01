@@ -12,6 +12,8 @@ public class Exercicio {
 
     private int treinoId;
 
+    private String nomeTreino;
+
 
     // =============================================
     // CONSTRUTOR PARA NOVO EXERCÍCIO
@@ -114,6 +116,16 @@ public class Exercicio {
     }
 
 
+    public String getNomeTreino() {
+        return nomeTreino;
+    }
+
+
+    public void setNomeTreino(String nomeTreino) {
+        this.nomeTreino = nomeTreino;
+    }
+
+
     // =============================================
     // TEXTO MOSTRADO NA LISTA
     // =============================================
@@ -121,11 +133,23 @@ public class Exercicio {
     @Override
     public String toString() {
 
-        return nome
+        String texto =
+                nome
                 + "   |   "
                 + series
                 + " séries x "
                 + repeticoes
                 + " repetições";
+
+
+        // Na tela geral de exercícios mostra também o treino
+
+        if (nomeTreino != null) {
+
+            texto += "   |   " + nomeTreino;
+        }
+
+
+        return texto;
     }
 }

@@ -1,18 +1,19 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Font;
+import static view.Fontes.px;
 
-import javax.swing.BorderFactory;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.EmptyBorder;
 
 import model.Exercicio;
 import model.Treino;
@@ -21,48 +22,19 @@ public class TelaDetalhesTreino extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-
     private JPanel contentPane;
-
 
     private JLabel lblNomeTreino;
 
+    private JList<Exercicio> listaExercicios;
 
-    private JList<Exercicio>
-            listaExercicios;
-
-
-    private DefaultListModel<Exercicio>
-            modeloLista;
-
+    private DefaultListModel<Exercicio> modeloLista;
 
     private JButton btnAdicionarExercicio;
-
+    private JButton btnConcluir;
     private JButton btnEditar;
-
     private JButton btnExcluir;
-
     private JButton btnVoltar;
-
-
-    // =============================================
-    // CORES
-    // =============================================
-
-    private static final Color PRETO =
-            new Color(18, 18, 18);
-
-    private static final Color PRETO_CLARO =
-            new Color(30, 30, 30);
-
-    private static final Color ROXO =
-            new Color(138, 43, 226);
-
-    private static final Color BRANCO =
-            new Color(245, 245, 245);
-
-    private static final Color CINZA =
-            new Color(180, 180, 180);
 
 
     // =============================================
@@ -73,59 +45,17 @@ public class TelaDetalhesTreino extends JFrame {
             Treino treino
     ) {
 
-        setTitle(
-                "TrainUp - "
-                        + treino.getNome()
-        );
+        setTitle("TrainUp - " + treino.getNome());
 
+        Icone.aplicar(this);
 
-        setDefaultCloseOperation(
-                JFrame.EXIT_ON_CLOSE
-        );
+        contentPane = Estilo.criarFundo();
 
+        setContentPane(contentPane);
 
-        setSize(
-                900,
-                600
-        );
+        criarComponentes(treino);
 
-
-        setResizable(false);
-
-
-        setLocationRelativeTo(null);
-
-
-        contentPane =
-                new JPanel();
-
-
-        contentPane.setBackground(
-                PRETO
-        );
-
-
-        contentPane.setBorder(
-                new EmptyBorder(
-                        5,
-                        5,
-                        5,
-                        5
-                )
-        );
-
-
-        contentPane.setLayout(null);
-
-
-        setContentPane(
-                contentPane
-        );
-
-
-        criarComponentes(
-                treino
-        );
+        Janela.configurar(this);
     }
 
 
@@ -137,358 +67,106 @@ public class TelaDetalhesTreino extends JFrame {
             Treino treino
     ) {
 
-
         // =========================================
-        // LOGO
+        // CABEÇALHO
         // =========================================
 
-        JLabel lblLogo =
-                new JLabel(
-                        "TRAINUP"
-                );
-
-
-        lblLogo.setBounds(
-                40,
-                25,
-                200,
-                40
-        );
-
-
-        lblLogo.setForeground(
-                ROXO
-        );
-
-
-        lblLogo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        28
-                )
-        );
-
+        btnVoltar = Estilo.criarBotaoCabecalho("VOLTAR");
 
         contentPane.add(
-                lblLogo
+                Estilo.criarCabecalho(btnVoltar),
+                BorderLayout.NORTH
         );
+
+
+        JPanel conteudo = Estilo.criarPainel(new BorderLayout(0, px(25)));
 
 
         // =========================================
-        // VOLTAR
+        // NOME DO TREINO + ADICIONAR
         // =========================================
 
-        btnVoltar =
-                new JButton(
-                        "VOLTAR"
-                );
+        JPanel topo = Estilo.criarPainel(new BorderLayout());
 
+        JPanel textos = Estilo.criarPainel(null);
 
-        btnVoltar.setBounds(
-                740,
-                30,
-                110,
-                35
-        );
+        textos.setLayout(new BoxLayout(textos, BoxLayout.Y_AXIS));
 
+        lblNomeTreino = Estilo.criarTitulo(treino.getNome());
 
-        btnVoltar.setBackground(
-                PRETO_CLARO
-        );
+        textos.add(lblNomeTreino);
 
+        textos.add(Estilo.criarSubtitulo("Exercícios deste treino"));
 
-        btnVoltar.setForeground(
-                BRANCO
-        );
+        topo.add(textos, BorderLayout.WEST);
 
-
-        btnVoltar.setFocusPainted(
-                false
-        );
-
-
-        contentPane.add(
-                btnVoltar
-        );
-
-
-        // =========================================
-        // NOME DO TREINO
-        // =========================================
-
-        lblNomeTreino =
-                new JLabel(
-                        treino.getNome()
-                );
-
-
-        lblNomeTreino.setBounds(
-                60,
-                105,
-                500,
-                45
-        );
-
-
-        lblNomeTreino.setForeground(
-                BRANCO
-        );
-
-
-        lblNomeTreino.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        30
-                )
-        );
-
-
-        contentPane.add(
-                lblNomeTreino
-        );
-
-
-        // =========================================
-        // SUBTÍTULO
-        // =========================================
-
-        JLabel lblSubtitulo =
-                new JLabel(
-                        "Exercícios deste treino"
-                );
-
-
-        lblSubtitulo.setBounds(
-                60,
-                150,
-                500,
-                30
-        );
-
-
-        lblSubtitulo.setForeground(
-                CINZA
-        );
-
-
-        contentPane.add(
-                lblSubtitulo
-        );
-
-
-        // =========================================
-        // ADICIONAR
-        // =========================================
 
         btnAdicionarExercicio =
-                new JButton(
-                        "+ ADICIONAR EXERCÍCIO"
-                );
+                Estilo.criarBotaoPrimario("+ ADICIONAR EXERCÍCIO");
 
-
-        btnAdicionarExercicio.setBounds(
-                610,
-                125,
-                240,
-                45
+        btnAdicionarExercicio.setPreferredSize(
+                new Dimension(px(260), px(50))
         );
 
+        btnConcluir = Estilo.criarBotaoContorno("CONCLUIR TREINO");
 
-        btnAdicionarExercicio.setBackground(
-                ROXO
+        btnConcluir.setPreferredSize(
+                new Dimension(px(240), px(50))
         );
 
-
-        btnAdicionarExercicio.setForeground(
-                BRANCO
+        JPanel botoesTopo = Estilo.criarPainel(
+                new GridLayout(1, 2, px(20), 0)
         );
 
+        botoesTopo.add(btnConcluir);
+        botoesTopo.add(btnAdicionarExercicio);
 
-        btnAdicionarExercicio.setFocusPainted(
-                false
-        );
+        JPanel areaAdicionar = Estilo.criarPainel(new GridBagLayout());
 
+        areaAdicionar.add(botoesTopo);
 
-        btnAdicionarExercicio.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        13
-                )
-        );
+        topo.add(areaAdicionar, BorderLayout.EAST);
 
-
-        contentPane.add(
-                btnAdicionarExercicio
-        );
-
-
-        // =========================================
-        // MODELO
-        // =========================================
-
-        modeloLista =
-                new DefaultListModel<>();
+        conteudo.add(topo, BorderLayout.NORTH);
 
 
         // =========================================
         // LISTA
         // =========================================
 
-        listaExercicios =
-                new JList<>(
-                        modeloLista
-                );
+        modeloLista = new DefaultListModel<>();
 
+        listaExercicios = new JList<>(modeloLista);
 
-        listaExercicios.setBackground(
-                PRETO_CLARO
-        );
-
-
-        listaExercicios.setForeground(
-                BRANCO
-        );
-
-
-        listaExercicios.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.PLAIN,
-                        16
-                )
-        );
-
-
-        listaExercicios.setFixedCellHeight(
-                55
-        );
-
-
-        listaExercicios.setSelectionBackground(
-                ROXO
-        );
-
-
-        listaExercicios.setSelectionForeground(
-                BRANCO
-        );
-
-
-        listaExercicios.setSelectionMode(
-                ListSelectionModel
-                        .SINGLE_SELECTION
+        conteudo.add(
+                Estilo.criarLista(listaExercicios),
+                BorderLayout.CENTER
         );
 
 
         // =========================================
-        // SCROLL
+        // EDITAR / EXCLUIR
         // =========================================
 
-        JScrollPane scrollPane =
-                new JScrollPane(
-                        listaExercicios
-                );
-
-
-        scrollPane.setBounds(
-                60,
-                210,
-                790,
-                250
+        JPanel botoes = Estilo.criarPainel(
+                new GridLayout(1, 2, px(20), 0)
         );
 
+        btnEditar = Estilo.criarBotaoSecundario("EDITAR");
 
-        scrollPane.setBorder(
-                BorderFactory
-                        .createLineBorder(
-                                ROXO,
-                                1
-                        )
-        );
+        btnExcluir = Estilo.criarBotaoSecundario("EXCLUIR");
 
+        botoes.add(btnEditar);
+        botoes.add(btnExcluir);
 
-        contentPane.add(
-                scrollPane
-        );
+        JPanel rodape = Estilo.criarPainel(new BorderLayout());
 
+        rodape.add(botoes, BorderLayout.EAST);
 
-        // =========================================
-        // EDITAR
-        // =========================================
-
-        btnEditar =
-                new JButton(
-                        "EDITAR"
-                );
+        conteudo.add(rodape, BorderLayout.SOUTH);
 
 
-        btnEditar.setBounds(
-                430,
-                490,
-                180,
-                45
-        );
-
-
-        btnEditar.setBackground(
-                PRETO_CLARO
-        );
-
-
-        btnEditar.setForeground(
-                BRANCO
-        );
-
-
-        btnEditar.setFocusPainted(
-                false
-        );
-
-
-        contentPane.add(
-                btnEditar
-        );
-
-
-        // =========================================
-        // EXCLUIR
-        // =========================================
-
-        btnExcluir =
-                new JButton(
-                        "EXCLUIR"
-                );
-
-
-        btnExcluir.setBounds(
-                630,
-                490,
-                220,
-                45
-        );
-
-
-        btnExcluir.setBackground(
-                PRETO_CLARO
-        );
-
-
-        btnExcluir.setForeground(
-                BRANCO
-        );
-
-
-        btnExcluir.setFocusPainted(
-                false
-        );
-
-
-        contentPane.add(
-                btnExcluir
-        );
+        contentPane.add(conteudo, BorderLayout.CENTER);
     }
 
 
@@ -497,7 +175,6 @@ public class TelaDetalhesTreino extends JFrame {
     // =============================================
 
     public void limparExercicios() {
-
         modeloLista.clear();
     }
 
@@ -509,10 +186,7 @@ public class TelaDetalhesTreino extends JFrame {
     public void adicionarExercicio(
             Exercicio exercicio
     ) {
-
-        modeloLista.addElement(
-                exercicio
-        );
+        modeloLista.addElement(exercicio);
     }
 
 
@@ -521,9 +195,7 @@ public class TelaDetalhesTreino extends JFrame {
     // =============================================
 
     public Exercicio getExercicioSelecionado() {
-
-        return listaExercicios
-                .getSelectedValue();
+        return listaExercicios.getSelectedValue();
     }
 
 
@@ -532,31 +204,26 @@ public class TelaDetalhesTreino extends JFrame {
     // =============================================
 
     public JButton getBtnAdicionarExercicio() {
-
         return btnAdicionarExercicio;
     }
 
+    public JButton getBtnConcluir() {
+        return btnConcluir;
+    }
 
     public JButton getBtnEditar() {
-
         return btnEditar;
     }
 
-
     public JButton getBtnExcluir() {
-
         return btnExcluir;
     }
 
-
     public JButton getBtnVoltar() {
-
         return btnVoltar;
     }
 
-
     public JList<Exercicio> getListaExercicios() {
-
         return listaExercicios;
     }
 }

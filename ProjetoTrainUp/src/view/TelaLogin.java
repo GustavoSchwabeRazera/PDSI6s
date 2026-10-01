@@ -1,16 +1,14 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.BorderLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
+import javax.swing.SwingConstants;
 
 public class TelaLogin extends JFrame {
 
@@ -26,266 +24,111 @@ public class TelaLogin extends JFrame {
     private JButton btnCadastrar;
     private JButton btnVoltar;
 
-    private static final Color PRETO =
-            new Color(18, 18, 18);
-
-    private static final Color PRETO_CLARO =
-            new Color(30, 30, 30);
-
-    private static final Color ROXO =
-            new Color(138, 43, 226);
-
-    private static final Color BRANCO =
-            new Color(245, 245, 245);
-
-    private static final Color CINZA =
-            new Color(180, 180, 180);
-
 
     public TelaLogin() {
 
         setTitle("TrainUp - Login");
 
-        setDefaultCloseOperation(
-                JFrame.EXIT_ON_CLOSE
-        );
+        Icone.aplicar(this);
 
-        setSize(500, 600);
-
-        setResizable(false);
-
-        setLocationRelativeTo(null);
-
-        contentPane = new JPanel();
-
-        contentPane.setBackground(PRETO);
-
-        contentPane.setBorder(
-                new EmptyBorder(5, 5, 5, 5)
-        );
-
-        contentPane.setLayout(null);
+        contentPane = Estilo.criarFundo();
 
         setContentPane(contentPane);
 
         criarComponentes();
+
+        Janela.configurar(this);
     }
 
 
     private void criarComponentes() {
 
         // ===========================
+        // CABEÇALHO
+        // ===========================
+
+        btnVoltar = Estilo.criarBotaoCabecalho("VOLTAR");
+
+        contentPane.add(
+                Estilo.criarCabecalho(btnVoltar),
+                BorderLayout.NORTH
+        );
+
+
+        // ===========================
+        // FORMULÁRIO
+        // ===========================
+
+        JPanel formulario = Estilo.criarFormulario();
+
+
         // TÍTULO
-        // ===========================
 
-        JLabel lblTitulo =
-                new JLabel("ENTRAR");
+        JLabel lblTitulo = Estilo.criarTitulo("ENTRAR");
 
-        lblTitulo.setBounds(
-                50, 60, 400, 50
-        );
+        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 
-        lblTitulo.setHorizontalAlignment(
-                JLabel.CENTER
-        );
-
-        lblTitulo.setForeground(BRANCO);
-
-        lblTitulo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        30
-                )
-        );
-
-        contentPane.add(lblTitulo);
+        Estilo.adicionar(formulario, lblTitulo);
 
 
-        // ===========================
         // SUBTÍTULO
-        // ===========================
 
         JLabel lblSubtitulo =
-                new JLabel(
-                        "Entre na sua conta TrainUp"
-                );
+                Estilo.criarSubtitulo("Entre na sua conta TrainUp");
 
-        lblSubtitulo.setBounds(
-                50, 110, 400, 25
-        );
+        lblSubtitulo.setHorizontalAlignment(SwingConstants.CENTER);
 
-        lblSubtitulo.setHorizontalAlignment(
-                JLabel.CENTER
-        );
+        Estilo.adicionar(formulario, lblSubtitulo);
 
-        lblSubtitulo.setForeground(CINZA);
-
-        contentPane.add(lblSubtitulo);
+        Estilo.espaco(formulario, 40);
 
 
-        // ===========================
         // EMAIL
-        // ===========================
 
-        JLabel lblEmail =
-                new JLabel("E-MAIL");
+        Estilo.adicionar(formulario, Estilo.criarRotulo("E-MAIL"));
 
-        lblEmail.setBounds(
-                75, 180, 350, 20
-        );
+        txtEmail = Estilo.criarCampo();
 
-        lblEmail.setForeground(BRANCO);
+        Estilo.adicionar(formulario, txtEmail);
 
-        contentPane.add(lblEmail);
+        Estilo.espaco(formulario, 20);
 
 
-        txtEmail = new JTextField();
-
-        txtEmail.setBounds(
-                75, 205, 350, 45
-        );
-
-        configurarCampo(txtEmail);
-
-        contentPane.add(txtEmail);
-
-
-        // ===========================
         // SENHA
-        // ===========================
 
-        JLabel lblSenha =
-                new JLabel("SENHA");
+        Estilo.adicionar(formulario, Estilo.criarRotulo("SENHA"));
 
-        lblSenha.setBounds(
-                75, 275, 350, 20
-        );
+        txtSenha = Estilo.criarCampoSenha();
 
-        lblSenha.setForeground(BRANCO);
+        Estilo.adicionar(formulario, txtSenha);
 
-        contentPane.add(lblSenha);
+        Estilo.espaco(formulario, 35);
 
 
-        txtSenha =
-                new JPasswordField();
-
-        txtSenha.setBounds(
-                75, 300, 350, 45
-        );
-
-        txtSenha.setBackground(PRETO_CLARO);
-        txtSenha.setForeground(BRANCO);
-        txtSenha.setCaretColor(BRANCO);
-
-        txtSenha.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.PLAIN,
-                        16
-                )
-        );
-
-        txtSenha.setBorder(
-                BorderFactory.createLineBorder(
-                        ROXO,
-                        1
-                )
-        );
-
-        contentPane.add(txtSenha);
-
-
-        // ===========================
         // ENTRAR
-        // ===========================
 
-        btnEntrar =
-                new JButton("ENTRAR");
+        btnEntrar = Estilo.criarBotaoPrimario("ENTRAR");
 
-        btnEntrar.setBounds(
-                75, 385, 350, 50
-        );
+        Estilo.adicionar(formulario, btnEntrar);
 
-        btnEntrar.setBackground(ROXO);
-        btnEntrar.setForeground(BRANCO);
-        btnEntrar.setFocusPainted(false);
-
-        btnEntrar.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        16
-                )
-        );
-
-        contentPane.add(btnEntrar);
+        Estilo.espaco(formulario, 20);
 
 
-        // ===========================
         // CADASTRAR
-        // ===========================
 
-        btnCadastrar =
-                new JButton(
-                        "Não possui conta? Cadastre-se"
-                );
-
-        btnCadastrar.setBounds(
-                75, 450, 350, 30
+        btnCadastrar = Estilo.criarBotaoLink(
+                "Não possui conta? Cadastre-se",
+                Estilo.ROXO
         );
 
-        btnCadastrar.setForeground(ROXO);
-        btnCadastrar.setBackground(PRETO);
-        btnCadastrar.setBorder(null);
-        btnCadastrar.setFocusPainted(false);
+        Estilo.adicionar(formulario, btnCadastrar);
 
-        contentPane.add(btnCadastrar);
+        Estilo.espaco(formulario, 60);
 
 
-        // ===========================
-        // VOLTAR
-        // ===========================
-
-        btnVoltar =
-                new JButton("Voltar");
-
-        btnVoltar.setBounds(
-                75, 500, 350, 30
-        );
-
-        btnVoltar.setForeground(CINZA);
-        btnVoltar.setBackground(PRETO);
-        btnVoltar.setBorder(null);
-        btnVoltar.setFocusPainted(false);
-
-        contentPane.add(btnVoltar);
-    }
-
-
-    private void configurarCampo(
-            JTextField campo
-    ) {
-
-        campo.setBackground(PRETO_CLARO);
-
-        campo.setForeground(BRANCO);
-
-        campo.setCaretColor(BRANCO);
-
-        campo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.PLAIN,
-                        16
-                )
-        );
-
-        campo.setBorder(
-                BorderFactory.createLineBorder(
-                        ROXO,
-                        1
-                )
+        contentPane.add(
+                Estilo.centralizar(formulario),
+                BorderLayout.CENTER
         );
     }
 

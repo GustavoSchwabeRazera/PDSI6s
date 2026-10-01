@@ -141,6 +141,75 @@ public class ExercicioDAO {
 
 
     // =============================================
+    // LISTAR TODOS OS EXERCÍCIOS DO USUÁRIO
+    // =============================================
+
+    public List<Exercicio> listarPorUsuario(
+            int usuarioId
+    ) throws SQLException {
+
+        String sql =
+                "SELECT e.id, e.nome, e.series, e.repeticoes, "
+                + "e.treino_id, t.nome AS nome_treino "
+                + "FROM exercicio e "
+                + "JOIN treino t ON t.id = e.treino_id "
+                + "WHERE t.usuario_id = ? "
+                + "ORDER BY e.nome";
+
+
+        List<Exercicio> lista =
+                new ArrayList<>();
+
+
+        try (
+                Connection con =
+                        Conexao.abrir();
+
+                PreparedStatement ps =
+                        con.prepareStatement(sql)
+        ) {
+
+            ps.setInt(
+                    1,
+                    usuarioId
+            );
+
+
+            try (
+                    ResultSet rs =
+                            ps.executeQuery()
+            ) {
+
+                while (rs.next()) {
+
+                    Exercicio exercicio =
+                            new Exercicio(
+                                    rs.getInt("id"),
+                                    rs.getString("nome"),
+                                    rs.getInt("series"),
+                                    rs.getInt("repeticoes"),
+                                    rs.getInt("treino_id")
+                            );
+
+
+                    exercicio.setNomeTreino(
+                            rs.getString("nome_treino")
+                    );
+
+
+                    lista.add(
+                            exercicio
+                    );
+                }
+            }
+        }
+
+
+        return lista;
+    }
+
+
+    // =============================================
     // BUSCAR POR ID
     // =============================================
 

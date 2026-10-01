@@ -1,55 +1,30 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Font;
+import static view.Fontes.px;
 
-import javax.swing.BorderFactory;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 
-public class TelaAdicionarExercicio
-        extends JFrame {
+public class TelaAdicionarExercicio extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-
     private JPanel contentPane;
 
-
     private JTextField txtNome;
-
     private JTextField txtSeries;
-
     private JTextField txtRepeticoes;
 
-
     private JButton btnSalvar;
-
     private JButton btnVoltar;
-
-
-    // =============================================
-    // CORES
-    // =============================================
-
-    private static final Color PRETO =
-            new Color(18, 18, 18);
-
-    private static final Color PRETO_CLARO =
-            new Color(30, 30, 30);
-
-    private static final Color ROXO =
-            new Color(138, 43, 226);
-
-    private static final Color BRANCO =
-            new Color(245, 245, 245);
-
-    private static final Color CINZA =
-            new Color(180, 180, 180);
 
 
     // =============================================
@@ -58,56 +33,17 @@ public class TelaAdicionarExercicio
 
     public TelaAdicionarExercicio() {
 
-        setTitle(
-                "TrainUp - Adicionar Exercício"
-        );
+        setTitle("TrainUp - Adicionar Exercício");
 
+        Icone.aplicar(this);
 
-        setDefaultCloseOperation(
-                JFrame.EXIT_ON_CLOSE
-        );
+        contentPane = Estilo.criarFundo();
 
-
-        setSize(
-                600,
-                550
-        );
-
-
-        setResizable(false);
-
-
-        setLocationRelativeTo(null);
-
-
-        contentPane =
-                new JPanel();
-
-
-        contentPane.setBackground(
-                PRETO
-        );
-
-
-        contentPane.setBorder(
-                new EmptyBorder(
-                        5,
-                        5,
-                        5,
-                        5
-                )
-        );
-
-
-        contentPane.setLayout(null);
-
-
-        setContentPane(
-                contentPane
-        );
-
+        setContentPane(contentPane);
 
         criarComponentes();
+
+        Janela.configurar(this);
     }
 
 
@@ -117,363 +53,95 @@ public class TelaAdicionarExercicio
 
     private void criarComponentes() {
 
-
         // =========================================
-        // LOGO
+        // CABEÇALHO
         // =========================================
 
-        JLabel lblLogo =
-                new JLabel(
-                        "TRAINUP"
-                );
-
-
-        lblLogo.setBounds(
-                30,
-                20,
-                200,
-                40
-        );
-
-
-        lblLogo.setForeground(
-                ROXO
-        );
-
-
-        lblLogo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        24
-                )
-        );
-
+        btnVoltar = Estilo.criarBotaoCabecalho("VOLTAR");
 
         contentPane.add(
-                lblLogo
+                Estilo.criarCabecalho(btnVoltar),
+                BorderLayout.NORTH
         );
 
 
         // =========================================
-        // VOLTAR
+        // FORMULÁRIO
         // =========================================
 
-        btnVoltar =
-                new JButton(
-                        "VOLTAR"
-                );
+        JPanel formulario = Estilo.criarFormulario();
+
+        Estilo.adicionar(formulario, Estilo.criarTitulo("Adicionar exercício"));
+
+        Estilo.espaco(formulario, 35);
 
 
-        btnVoltar.setBounds(
-                450,
-                25,
-                100,
-                35
-        );
-
-
-        btnVoltar.setBackground(
-                PRETO_CLARO
-        );
-
-
-        btnVoltar.setForeground(
-                BRANCO
-        );
-
-
-        btnVoltar.setFocusPainted(
-                false
-        );
-
-
-        contentPane.add(
-                btnVoltar
-        );
-
-
-        // =========================================
-        // TÍTULO
-        // =========================================
-
-        JLabel lblTitulo =
-                new JLabel(
-                        "Adicionar exercício"
-                );
-
-
-        lblTitulo.setBounds(
-                60,
-                90,
-                450,
-                40
-        );
-
-
-        lblTitulo.setForeground(
-                BRANCO
-        );
-
-
-        lblTitulo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        28
-                )
-        );
-
-
-        contentPane.add(
-                lblTitulo
-        );
-
-
-        // =========================================
         // NOME
-        // =========================================
 
-        JLabel lblNome =
-                criarLabel(
-                        "NOME DO EXERCÍCIO"
-                );
+        Estilo.adicionar(formulario, Estilo.criarRotulo("NOME DO EXERCÍCIO"));
+
+        txtNome = Estilo.criarCampo();
+
+        Estilo.adicionar(formulario, txtNome);
+
+        Estilo.espaco(formulario, 20);
 
 
-        lblNome.setBounds(
-                60,
-                160,
-                470,
-                20
+        // SÉRIES E REPETIÇÕES (lado a lado)
+
+        txtSeries = Estilo.criarCampo();
+
+        txtRepeticoes = Estilo.criarCampo();
+
+        JPanel linha = Estilo.criarPainel(new GridLayout(1, 2, px(20), 0));
+
+        linha.add(criarGrupo("SÉRIES", txtSeries));
+        linha.add(criarGrupo("REPETIÇÕES", txtRepeticoes));
+
+        linha.setPreferredSize(
+                new Dimension(0, linha.getPreferredSize().height)
         );
 
+        Estilo.adicionar(formulario, linha);
 
-        contentPane.add(
-                lblNome
-        );
-
-
-        txtNome =
-                criarCampo();
+        Estilo.espaco(formulario, 35);
 
 
-        txtNome.setBounds(
-                60,
-                185,
-                470,
-                45
-        );
-
-
-        contentPane.add(
-                txtNome
-        );
-
-
-        // =========================================
-        // SÉRIES
-        // =========================================
-
-        JLabel lblSeries =
-                criarLabel(
-                        "SÉRIES"
-                );
-
-
-        lblSeries.setBounds(
-                60,
-                250,
-                200,
-                20
-        );
-
-
-        contentPane.add(
-                lblSeries
-        );
-
-
-        txtSeries =
-                criarCampo();
-
-
-        txtSeries.setBounds(
-                60,
-                275,
-                210,
-                45
-        );
-
-
-        contentPane.add(
-                txtSeries
-        );
-
-
-        // =========================================
-        // REPETIÇÕES
-        // =========================================
-
-        JLabel lblRepeticoes =
-                criarLabel(
-                        "REPETIÇÕES"
-                );
-
-
-        lblRepeticoes.setBounds(
-                320,
-                250,
-                210,
-                20
-        );
-
-
-        contentPane.add(
-                lblRepeticoes
-        );
-
-
-        txtRepeticoes =
-                criarCampo();
-
-
-        txtRepeticoes.setBounds(
-                320,
-                275,
-                210,
-                45
-        );
-
-
-        contentPane.add(
-                txtRepeticoes
-        );
-
-
-        // =========================================
         // SALVAR
-        // =========================================
 
-        btnSalvar =
-                new JButton(
-                        "ADICIONAR EXERCÍCIO"
-                );
+        btnSalvar = Estilo.criarBotaoPrimario("ADICIONAR EXERCÍCIO");
 
+        Estilo.adicionar(formulario, btnSalvar);
 
-        btnSalvar.setBounds(
-                290,
-                380,
-                240,
-                50
-        );
-
-
-        btnSalvar.setBackground(
-                ROXO
-        );
-
-
-        btnSalvar.setForeground(
-                BRANCO
-        );
-
-
-        btnSalvar.setFocusPainted(
-                false
-        );
-
-
-        btnSalvar.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        14
-                )
-        );
+        Estilo.espaco(formulario, 60);
 
 
         contentPane.add(
-                btnSalvar
+                Estilo.centralizar(formulario),
+                BorderLayout.CENTER
         );
     }
 
 
-    // =============================================
-    // LABEL
-    // =============================================
+    private JPanel criarGrupo(String rotulo, JTextField campo) {
 
-    private JLabel criarLabel(
-            String texto
-    ) {
+        JPanel grupo = Estilo.criarPainel(null);
 
-        JLabel label =
-                new JLabel(
-                        texto
-                );
+        grupo.setLayout(new BoxLayout(grupo, BoxLayout.Y_AXIS));
 
+        JLabel label = Estilo.criarRotulo(rotulo);
 
-        label.setForeground(
-                CINZA
+        label.setAlignmentX(LEFT_ALIGNMENT);
+        campo.setAlignmentX(LEFT_ALIGNMENT);
+
+        campo.setMaximumSize(
+                new Dimension(Integer.MAX_VALUE, campo.getPreferredSize().height)
         );
 
+        grupo.add(label);
+        grupo.add(campo);
 
-        label.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        12
-                )
-        );
-
-
-        return label;
-    }
-
-
-    // =============================================
-    // CAMPO
-    // =============================================
-
-    private JTextField criarCampo() {
-
-        JTextField campo =
-                new JTextField();
-
-
-        campo.setBackground(
-                PRETO_CLARO
-        );
-
-
-        campo.setForeground(
-                BRANCO
-        );
-
-
-        campo.setCaretColor(
-                BRANCO
-        );
-
-
-        campo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.PLAIN,
-                        16
-                )
-        );
-
-
-        campo.setBorder(
-                BorderFactory
-                        .createLineBorder(
-                                ROXO,
-                                1
-                        )
-        );
-
-
-        return campo;
+        return grupo;
     }
 
 
@@ -482,31 +150,22 @@ public class TelaAdicionarExercicio
     // =============================================
 
     public JTextField getTxtNome() {
-
         return txtNome;
     }
 
-
     public JTextField getTxtSeries() {
-
         return txtSeries;
     }
 
-
     public JTextField getTxtRepeticoes() {
-
         return txtRepeticoes;
     }
 
-
     public JButton getBtnSalvar() {
-
         return btnSalvar;
     }
 
-
     public JButton getBtnVoltar() {
-
         return btnVoltar;
     }
 }

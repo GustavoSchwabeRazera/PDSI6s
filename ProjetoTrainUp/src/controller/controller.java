@@ -5,15 +5,19 @@ import java.awt.event.ActionListener;
 
 import java.sql.SQLException;
 
+import java.time.LocalDateTime;
+
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import dao.ExercicioDAO;
+import dao.RegistroDAO;
 import dao.TreinoDAO;
 import dao.UsuarioDAO;
 
 import model.Exercicio;
+import model.Registro;
 import model.Treino;
 import model.Usuario;
 
@@ -21,9 +25,11 @@ import view.TelaAdicionarExercicio;
 import view.TelaCadastro;
 import view.TelaCriarTreino;
 import view.TelaDetalhesTreino;
+import view.TelaExercicios;
 import view.TelaHome;
 import view.TelaInicial;
 import view.TelaLogin;
+import view.TelaProgresso;
 import view.TelaTreinos;
 
 public class controller
@@ -50,6 +56,10 @@ public class controller
 
     private TelaAdicionarExercicio telaAdicionarExercicio;
 
+    private TelaExercicios telaExercicios;
+
+    private TelaProgresso telaProgresso;
+
 
     // =============================================
     // DAOS
@@ -60,6 +70,8 @@ public class controller
     private TreinoDAO treinoDAO;
 
     private ExercicioDAO exercicioDAO;
+
+    private RegistroDAO registroDAO;
 
 
     // =============================================
@@ -88,6 +100,9 @@ public class controller
         exercicioDAO =
                 new ExercicioDAO();
 
+        registroDAO =
+                new RegistroDAO();
+
 
         abrirTelaInicial();
     }
@@ -113,6 +128,11 @@ public class controller
 
         telaInicial
                 .getBtnCadastrar()
+                .addActionListener(this);
+
+
+        telaInicial
+                .getBtnSair()
                 .addActionListener(this);
 
 
@@ -171,6 +191,11 @@ public class controller
 
         telaCadastro
                 .getBtnCadastrar()
+                .addActionListener(this);
+
+
+        telaCadastro
+                .getBtnVoltar()
                 .addActionListener(this);
 
 
@@ -352,6 +377,11 @@ public class controller
 
 
         telaDetalhesTreino
+                .getBtnConcluir()
+                .addActionListener(this);
+
+
+        telaDetalhesTreino
                 .getBtnEditar()
                 .addActionListener(this);
 
@@ -483,6 +513,252 @@ public class controller
         telaAdicionarExercicio.setVisible(
                 true
         );
+    }
+
+
+    // =============================================
+    // EXERCÍCIOS (todos os exercícios do usuário)
+    // =============================================
+
+    private void abrirTelaExercicios() {
+
+        fecharTelas();
+
+
+        telaExercicios =
+                new TelaExercicios();
+
+
+        telaExercicios
+                .getBtnAbrirTreino()
+                .addActionListener(this);
+
+
+        telaExercicios
+                .getBtnVoltar()
+                .addActionListener(this);
+
+
+        telaExercicios.setVisible(
+                true
+        );
+
+
+        try {
+
+            telaExercicios.setExercicios(
+                    exercicioDAO.listarPorUsuario(
+                            usuarioLogado.getId()
+                    )
+            );
+
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(
+                    telaExercicios,
+                    "Erro ao carregar exercícios:\n"
+                            + erro.getMessage()
+            );
+
+
+            erro.printStackTrace();
+        }
+    }
+
+
+    // =============================================
+    // ABRIR O TREINO DO EXERCÍCIO SELECIONADO
+    // =============================================
+
+    private void abrirTreinoDoExercicio() {
+
+        Exercicio exercicio =
+                telaExercicios
+                        .getExercicioSelecionado();
+
+
+        if (exercicio == null) {
+
+            JOptionPane.showMessageDialog(
+                    telaExercicios,
+                    "Selecione um exercício."
+            );
+
+            return;
+        }
+
+
+        try {
+
+            Treino treino =
+                    treinoDAO.buscarPorId(
+                            exercicio.getTreinoId()
+                    );
+
+
+            abrirTelaDetalhesTreino(
+                    treino
+            );
+
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(
+                    telaExercicios,
+                    "Erro ao abrir treino:\n"
+                            + erro.getMessage()
+            );
+
+
+            erro.printStackTrace();
+        }
+    }
+
+
+    // =============================================
+    // PROGRESSO
+    // =============================================
+
+    private void abrirTelaProgresso() {
+
+        fecharTelas();
+
+
+        telaProgresso =
+                new TelaProgresso();
+
+
+        telaProgresso
+                .getBtnVoltar()
+                .addActionListener(this);
+
+
+        telaProgresso.setVisible(
+                true
+        );
+
+
+        try {
+
+            int treinos =
+                    treinoDAO.listarPorUsuario(
+                            usuarioLogado.getId()
+                    ).size();
+
+
+            int exercicios =
+                    exercicioDAO.listarPorUsuario(
+                            usuarioLogado.getId()
+                    ).size();
+
+
+            List<Registro> registros =
+                    registroDAO.listarPorUsuario(
+                            usuarioLogado.getId()
+                    );
+
+
+            // Treinos concluídos nos últimos 7 dias
+
+            LocalDateTime semanaPassada =
+                    LocalDateTime.now().minusDays(7);
+
+            int semana = 0;
+
+            for (Registro registro : registros) {
+
+                if (registro.getData()
+                        .isAfter(semanaPassada)) {
+
+                    semana++;
+                }
+            }
+
+
+            telaProgresso.setResumo(
+                    treinos,
+                    exercicios,
+                    registros.size(),
+                    semana
+            );
+
+
+            telaProgresso.limparHistorico();
+
+
+            for (Registro registro : registros) {
+
+                telaProgresso.adicionarRegistro(
+                        registro
+                );
+            }
+
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(
+                    telaProgresso,
+                    "Erro ao carregar progresso:\n"
+                            + erro.getMessage()
+            );
+
+
+            erro.printStackTrace();
+        }
+    }
+
+
+    // =============================================
+    // CONCLUIR TREINO
+    // =============================================
+
+    private void concluirTreino() {
+
+        int resposta =
+                JOptionPane.showConfirmDialog(
+                        telaDetalhesTreino,
+                        "Marcar o treino \""
+                                + treinoSelecionado.getNome()
+                                + "\" como concluído hoje?",
+                        "Concluir treino",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+
+        if (resposta
+                != JOptionPane.YES_OPTION) {
+
+            return;
+        }
+
+
+        try {
+
+            registroDAO.inserir(
+                    new Registro(
+                            treinoSelecionado.getId()
+                    )
+            );
+
+
+            JOptionPane.showMessageDialog(
+                    telaDetalhesTreino,
+                    "Treino concluído! Veja sua evolução em PROGRESSO."
+            );
+
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(
+                    telaDetalhesTreino,
+                    "Erro ao concluir treino:\n"
+                            + erro.getMessage()
+            );
+
+
+            erro.printStackTrace();
+        }
     }
 
 
@@ -1245,6 +1521,15 @@ public class controller
 
                 return;
             }
+
+
+            if (botao
+                    == telaInicial.getBtnSair()) {
+
+                System.exit(0);
+
+                return;
+            }
         }
 
 
@@ -1295,6 +1580,15 @@ public class controller
 
                 return;
             }
+
+
+            if (botao
+                    == telaCadastro.getBtnVoltar()) {
+
+                abrirTelaInicial();
+
+                return;
+            }
         }
 
 
@@ -1316,10 +1610,7 @@ public class controller
             if (botao
                     == telaHome.getBtnExercicios()) {
 
-                JOptionPane.showMessageDialog(
-                        telaHome,
-                        "Tela geral de exercícios será criada depois."
-                );
+                abrirTelaExercicios();
 
                 return;
             }
@@ -1328,10 +1619,7 @@ public class controller
             if (botao
                     == telaHome.getBtnProgresso()) {
 
-                JOptionPane.showMessageDialog(
-                        telaHome,
-                        "Tela de progresso será criada depois."
-                );
+                abrirTelaProgresso();
 
                 return;
             }
@@ -1450,6 +1738,16 @@ public class controller
 
             if (botao
                     == telaDetalhesTreino
+                            .getBtnConcluir()) {
+
+                concluirTreino();
+
+                return;
+            }
+
+
+            if (botao
+                    == telaDetalhesTreino
                             .getBtnAdicionarExercicio()) {
 
                 abrirTelaAdicionarExercicio();
@@ -1490,6 +1788,51 @@ public class controller
                             .getBtnVoltar()) {
 
                 abrirTelaTreinos();
+
+                return;
+            }
+        }
+
+
+        // =========================================
+        // EXERCÍCIOS
+        // =========================================
+
+        if (telaExercicios != null) {
+
+            if (botao
+                    == telaExercicios.getBtnAbrirTreino()) {
+
+                abrirTreinoDoExercicio();
+
+                return;
+            }
+
+
+            if (botao
+                    == telaExercicios.getBtnVoltar()) {
+
+                abrirTelaHome(
+                        usuarioLogado
+                );
+
+                return;
+            }
+        }
+
+
+        // =========================================
+        // PROGRESSO
+        // =========================================
+
+        if (telaProgresso != null) {
+
+            if (botao
+                    == telaProgresso.getBtnVoltar()) {
+
+                abrirTelaHome(
+                        usuarioLogado
+                );
 
                 return;
             }
@@ -1596,6 +1939,22 @@ public class controller
             telaAdicionarExercicio.dispose();
 
             telaAdicionarExercicio = null;
+        }
+
+
+        if (telaExercicios != null) {
+
+            telaExercicios.dispose();
+
+            telaExercicios = null;
+        }
+
+
+        if (telaProgresso != null) {
+
+            telaProgresso.dispose();
+
+            telaProgresso = null;
         }
     }
 }

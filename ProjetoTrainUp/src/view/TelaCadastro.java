@@ -1,9 +1,7 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.BorderLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -11,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
+import javax.swing.SwingConstants;
 
 public class TelaCadastro extends JFrame {
 
@@ -27,391 +25,153 @@ public class TelaCadastro extends JFrame {
     private JPasswordField txtConfirmarSenha;
 
     private JButton btnCadastrar;
-
-    private static final Color PRETO =
-            new Color(18, 18, 18);
-
-    private static final Color PRETO_CLARO =
-            new Color(30, 30, 30);
-
-    private static final Color ROXO =
-            new Color(138, 43, 226);
-
-    private static final Color BRANCO =
-            new Color(245, 245, 245);
-
-    private static final Color CINZA =
-            new Color(180, 180, 180);
+    private JButton btnVoltar;
 
 
     public TelaCadastro() {
 
         setTitle("TrainUp - Cadastro");
 
-        setDefaultCloseOperation(
-                JFrame.EXIT_ON_CLOSE
-        );
+        Icone.aplicar(this);
 
-        setSize(500, 700);
-
-        setResizable(false);
-
-        setLocationRelativeTo(null);
-
-        contentPane = new JPanel();
-
-        contentPane.setBackground(PRETO);
-
-        contentPane.setBorder(
-                new EmptyBorder(5, 5, 5, 5)
-        );
-
-        contentPane.setLayout(null);
+        contentPane = Estilo.criarFundo();
 
         setContentPane(contentPane);
 
         criarComponentes();
+
+        Janela.configurar(this);
     }
 
 
     private void criarComponentes() {
 
         // =============================
-        // TÍTULO
+        // CABEÇALHO
         // =============================
 
-        JLabel lblTitulo =
-                new JLabel("CRIAR CONTA");
-
-        lblTitulo.setBounds(
-                50, 30, 400, 40
-        );
-
-        lblTitulo.setHorizontalAlignment(
-                JLabel.CENTER
-        );
-
-        lblTitulo.setForeground(BRANCO);
-
-        lblTitulo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        28
-                )
-        );
-
-        contentPane.add(lblTitulo);
-
-
-        // =============================
-        // SUBTÍTULO
-        // =============================
-
-        JLabel lblSubtitulo =
-                new JLabel(
-                        "Cadastre-se no TrainUp"
-                );
-
-        lblSubtitulo.setBounds(
-                50, 70, 400, 25
-        );
-
-        lblSubtitulo.setHorizontalAlignment(
-                JLabel.CENTER
-        );
-
-        lblSubtitulo.setForeground(CINZA);
-
-        contentPane.add(lblSubtitulo);
-
-
-        // =============================
-        // NOME
-        // =============================
-
-        JLabel lblNome =
-                criarLabel("NOME");
-
-        lblNome.setBounds(
-                70, 120, 350, 20
-        );
-
-        contentPane.add(lblNome);
-
-
-        txtNome = criarCampo();
-
-        txtNome.setBounds(
-                70, 145, 350, 40
-        );
-
-        contentPane.add(txtNome);
-
-
-        // =============================
-        // EMAIL
-        // =============================
-
-        JLabel lblEmail =
-                criarLabel("E-MAIL");
-
-        lblEmail.setBounds(
-                70, 195, 350, 20
-        );
-
-        contentPane.add(lblEmail);
-
-
-        txtEmail = criarCampo();
-
-        txtEmail.setBounds(
-                70, 220, 350, 40
-        );
-
-        contentPane.add(txtEmail);
-
-
-        // =============================
-        // IDADE
-        // =============================
-
-        JLabel lblIdade =
-                criarLabel("IDADE");
-
-        lblIdade.setBounds(
-                70, 270, 350, 20
-        );
-
-        contentPane.add(lblIdade);
-
-
-        txtIdade = criarCampo();
-
-        txtIdade.setBounds(
-                70, 295, 350, 40
-        );
-
-        contentPane.add(txtIdade);
-
-
-        // =============================
-        // SENHA
-        // =============================
-
-        JLabel lblSenha =
-                criarLabel("SENHA");
-
-        lblSenha.setBounds(
-                70, 345, 350, 20
-        );
-
-        contentPane.add(lblSenha);
-
-
-        txtSenha =
-                new JPasswordField();
-
-        configurarSenha(txtSenha);
-
-        txtSenha.setBounds(
-                70, 370, 350, 40
-        );
-
-        contentPane.add(txtSenha);
-
-
-        // =============================
-        // CONFIRMAR SENHA
-        // =============================
-
-        JLabel lblConfirmar =
-                criarLabel(
-                        "CONFIRMAR SENHA"
-                );
-
-        lblConfirmar.setBounds(
-                70, 420, 350, 20
-        );
-
-        contentPane.add(lblConfirmar);
-
-
-        txtConfirmarSenha =
-                new JPasswordField();
-
-        configurarSenha(
-                txtConfirmarSenha
-        );
-
-        txtConfirmarSenha.setBounds(
-                70, 445, 350, 40
-        );
+        btnVoltar = Estilo.criarBotaoCabecalho("VOLTAR");
 
         contentPane.add(
-                txtConfirmarSenha
+                Estilo.criarCabecalho(btnVoltar),
+                BorderLayout.NORTH
         );
 
 
         // =============================
+        // FORMULÁRIO
+        // =============================
+
+        JPanel formulario = Estilo.criarFormulario();
+
+
+        // TÍTULO
+
+        JLabel lblTitulo = Estilo.criarTitulo("CRIAR CONTA");
+
+        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+
+        Estilo.adicionar(formulario, lblTitulo);
+
+
+        // SUBTÍTULO
+
+        JLabel lblSubtitulo =
+                Estilo.criarSubtitulo("Cadastre-se no TrainUp");
+
+        lblSubtitulo.setHorizontalAlignment(SwingConstants.CENTER);
+
+        Estilo.adicionar(formulario, lblSubtitulo);
+
+        Estilo.espaco(formulario, 25);
+
+
+        // NOME
+
+        txtNome = Estilo.criarCampo();
+
+        adicionarCampo(formulario, "NOME", txtNome);
+
+
+        // EMAIL
+
+        txtEmail = Estilo.criarCampo();
+
+        adicionarCampo(formulario, "E-MAIL", txtEmail);
+
+
+        // IDADE
+
+        txtIdade = Estilo.criarCampo();
+
+        adicionarCampo(formulario, "IDADE", txtIdade);
+
+
+        // SENHA
+
+        txtSenha = Estilo.criarCampoSenha();
+
+        adicionarCampo(formulario, "SENHA", txtSenha);
+
+
+        // CONFIRMAR SENHA
+
+        txtConfirmarSenha = Estilo.criarCampoSenha();
+
+        adicionarCampo(formulario, "CONFIRMAR SENHA", txtConfirmarSenha);
+
+
         // MOSTRAR SENHA
-        // =============================
 
-        JCheckBox chkMostrarSenha =
-                new JCheckBox(
-                        "Mostrar senha"
-                );
+        JCheckBox chkMostrarSenha = new JCheckBox("Mostrar senha");
 
-        chkMostrarSenha.setBounds(
-                70, 495, 150, 25
-        );
-
-        chkMostrarSenha.setForeground(CINZA);
-
-        chkMostrarSenha.setBackground(PRETO);
-
+        chkMostrarSenha.setForeground(Estilo.CINZA);
+        chkMostrarSenha.setOpaque(false);
         chkMostrarSenha.setFocusPainted(false);
-
+        chkMostrarSenha.setFont(Fontes.PADRAO);
 
         chkMostrarSenha.addActionListener(
                 e -> {
 
-                    if (chkMostrarSenha
-                            .isSelected()) {
+                    char eco = chkMostrarSenha.isSelected()
+                            ? (char) 0
+                            : '•';
 
-                        txtSenha.setEchoChar(
-                                (char) 0
-                        );
-
-                        txtConfirmarSenha
-                                .setEchoChar(
-                                        (char) 0
-                                );
-
-                    } else {
-
-                        txtSenha.setEchoChar('•');
-
-                        txtConfirmarSenha
-                                .setEchoChar('•');
-                    }
+                    txtSenha.setEchoChar(eco);
+                    txtConfirmarSenha.setEchoChar(eco);
                 }
         );
 
-        contentPane.add(chkMostrarSenha);
+        Estilo.adicionar(formulario, chkMostrarSenha);
+
+        Estilo.espaco(formulario, 20);
 
 
-        // =============================
         // CADASTRAR
-        // =============================
 
-        btnCadastrar =
-                new JButton("CADASTRAR");
+        btnCadastrar = Estilo.criarBotaoPrimario("CADASTRAR");
 
-        btnCadastrar.setBounds(
-                70, 545, 350, 45
+        Estilo.adicionar(formulario, btnCadastrar);
+
+
+        contentPane.add(
+                Estilo.centralizar(formulario),
+                BorderLayout.CENTER
         );
-
-        btnCadastrar.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        16
-                )
-        );
-
-        btnCadastrar.setForeground(BRANCO);
-
-        btnCadastrar.setBackground(ROXO);
-
-        btnCadastrar.setFocusPainted(false);
-
-        btnCadastrar.setBorder(
-                BorderFactory
-                        .createEmptyBorder()
-        );
-
-        contentPane.add(btnCadastrar);
     }
 
 
-    private JLabel criarLabel(
-            String texto
+    private void adicionarCampo(
+            JPanel formulario,
+            String rotulo,
+            JTextField campo
     ) {
 
-        JLabel label =
-                new JLabel(texto);
+        Estilo.adicionar(formulario, Estilo.criarRotulo(rotulo));
 
-        label.setForeground(CINZA);
+        Estilo.adicionar(formulario, campo);
 
-        label.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        12
-                )
-        );
-
-        return label;
-    }
-
-
-    private JTextField criarCampo() {
-
-        JTextField campo =
-                new JTextField();
-
-        campo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.PLAIN,
-                        16
-                )
-        );
-
-        campo.setForeground(BRANCO);
-
-        campo.setBackground(PRETO_CLARO);
-
-        campo.setCaretColor(BRANCO);
-
-        campo.setBorder(
-                BorderFactory
-                        .createLineBorder(
-                                ROXO,
-                                1
-                        )
-        );
-
-        return campo;
-    }
-
-
-    private void configurarSenha(
-            JPasswordField campo
-    ) {
-
-        campo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.PLAIN,
-                        16
-                )
-        );
-
-        campo.setForeground(BRANCO);
-
-        campo.setBackground(PRETO_CLARO);
-
-        campo.setCaretColor(BRANCO);
-
-        campo.setBorder(
-                BorderFactory
-                        .createLineBorder(
-                                ROXO,
-                                1
-                        )
-        );
+        Estilo.espaco(formulario, 12);
     }
 
 
@@ -441,5 +201,9 @@ public class TelaCadastro extends JFrame {
 
     public JButton getBtnCadastrar() {
         return btnCadastrar;
+    }
+
+    public JButton getBtnVoltar() {
+        return btnVoltar;
     }
 }

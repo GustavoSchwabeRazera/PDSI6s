@@ -3,6 +3,7 @@ package main;
 import javax.swing.SwingUtilities;
 
 import controller.controller;
+import view.Fontes;
 
 public class Main {
 
@@ -10,6 +11,8 @@ public class Main {
 
         SwingUtilities.invokeLater(
                 () -> {
+
+                    Fontes.aplicarPadrao();
 
                     new controller();
 

@@ -1,15 +1,11 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.BorderLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 
 public class TelaCriarTreino extends JFrame {
 
@@ -24,73 +20,22 @@ public class TelaCriarTreino extends JFrame {
 
 
     // =============================================
-    // CORES
-    // =============================================
-
-    private static final Color PRETO =
-            new Color(18, 18, 18);
-
-    private static final Color PRETO_CLARO =
-            new Color(30, 30, 30);
-
-    private static final Color ROXO =
-            new Color(138, 43, 226);
-
-    private static final Color BRANCO =
-            new Color(245, 245, 245);
-
-    private static final Color CINZA =
-            new Color(180, 180, 180);
-
-
-    // =============================================
     // CONSTRUTOR
     // =============================================
 
     public TelaCriarTreino() {
 
-        setTitle(
-                "TrainUp - Novo Treino"
-        );
+        setTitle("TrainUp - Novo Treino");
 
-        setDefaultCloseOperation(
-                JFrame.EXIT_ON_CLOSE
-        );
+        Icone.aplicar(this);
 
-        setSize(
-                600,
-                400
-        );
+        contentPane = Estilo.criarFundo();
 
-        setResizable(false);
-
-        setLocationRelativeTo(null);
-
-
-        contentPane =
-                new JPanel();
-
-        contentPane.setBackground(
-                PRETO
-        );
-
-        contentPane.setBorder(
-                new EmptyBorder(
-                        5,
-                        5,
-                        5,
-                        5
-                )
-        );
-
-        contentPane.setLayout(null);
-
-        setContentPane(
-                contentPane
-        );
-
+        setContentPane(contentPane);
 
         criarComponentes();
+
+        Janela.configurar(this);
     }
 
 
@@ -100,244 +45,57 @@ public class TelaCriarTreino extends JFrame {
 
     private void criarComponentes() {
 
-
         // =========================================
-        // LOGO
+        // CABEÇALHO
         // =========================================
 
-        JLabel lblLogo =
-                new JLabel("TRAINUP");
-
-        lblLogo.setBounds(
-                30,
-                20,
-                200,
-                40
-        );
-
-        lblLogo.setForeground(
-                ROXO
-        );
-
-        lblLogo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        24
-                )
-        );
+        btnVoltar = Estilo.criarBotaoCabecalho("VOLTAR");
 
         contentPane.add(
-                lblLogo
+                Estilo.criarCabecalho(btnVoltar),
+                BorderLayout.NORTH
         );
 
 
         // =========================================
-        // VOLTAR
+        // FORMULÁRIO
         // =========================================
 
-        btnVoltar =
-                new JButton("VOLTAR");
+        JPanel formulario = Estilo.criarFormulario();
 
-        btnVoltar.setBounds(
-                450,
-                25,
-                100,
-                35
+        Estilo.adicionar(formulario, Estilo.criarTitulo("Criar novo treino"));
+
+        Estilo.adicionar(
+                formulario,
+                Estilo.criarSubtitulo("Dê um nome para seu treino.")
         );
 
-        btnVoltar.setBackground(
-                PRETO_CLARO
-        );
-
-        btnVoltar.setForeground(
-                BRANCO
-        );
-
-        btnVoltar.setFocusPainted(
-                false
-        );
-
-        contentPane.add(
-                btnVoltar
-        );
+        Estilo.espaco(formulario, 40);
 
 
-        // =========================================
-        // TÍTULO
-        // =========================================
+        // NOME
 
-        JLabel lblTitulo =
-                new JLabel(
-                        "Criar novo treino"
-                );
+        Estilo.adicionar(formulario, Estilo.criarRotulo("NOME DO TREINO"));
 
-        lblTitulo.setBounds(
-                60,
-                100,
-                450,
-                40
-        );
+        txtNome = Estilo.criarCampo();
 
-        lblTitulo.setForeground(
-                BRANCO
-        );
+        Estilo.adicionar(formulario, txtNome);
 
-        lblTitulo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        28
-                )
-        );
-
-        contentPane.add(
-                lblTitulo
-        );
+        Estilo.espaco(formulario, 35);
 
 
-        // =========================================
-        // SUBTÍTULO
-        // =========================================
-
-        JLabel lblSubtitulo =
-                new JLabel(
-                        "Dê um nome para seu treino."
-                );
-
-        lblSubtitulo.setBounds(
-                60,
-                140,
-                450,
-                25
-        );
-
-        lblSubtitulo.setForeground(
-                CINZA
-        );
-
-        contentPane.add(
-                lblSubtitulo
-        );
-
-
-        // =========================================
-        // LABEL NOME
-        // =========================================
-
-        JLabel lblNome =
-                new JLabel(
-                        "NOME DO TREINO"
-                );
-
-        lblNome.setBounds(
-                60,
-                195,
-                450,
-                20
-        );
-
-        lblNome.setForeground(
-                CINZA
-        );
-
-        lblNome.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        12
-                )
-        );
-
-        contentPane.add(
-                lblNome
-        );
-
-
-        // =========================================
-        // CAMPO NOME
-        // =========================================
-
-        txtNome =
-                new JTextField();
-
-        txtNome.setBounds(
-                60,
-                220,
-                470,
-                45
-        );
-
-        txtNome.setBackground(
-                PRETO_CLARO
-        );
-
-        txtNome.setForeground(
-                BRANCO
-        );
-
-        txtNome.setCaretColor(
-                BRANCO
-        );
-
-        txtNome.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.PLAIN,
-                        16
-                )
-        );
-
-        txtNome.setBorder(
-                BorderFactory.createLineBorder(
-                        ROXO,
-                        1
-                )
-        );
-
-        contentPane.add(
-                txtNome
-        );
-
-
-        // =========================================
         // SALVAR
-        // =========================================
 
-        btnSalvar =
-                new JButton(
-                        "SALVAR TREINO"
-                );
+        btnSalvar = Estilo.criarBotaoPrimario("SALVAR TREINO");
 
-        btnSalvar.setBounds(
-                330,
-                295,
-                200,
-                45
-        );
+        Estilo.adicionar(formulario, btnSalvar);
 
-        btnSalvar.setBackground(
-                ROXO
-        );
+        Estilo.espaco(formulario, 60);
 
-        btnSalvar.setForeground(
-                BRANCO
-        );
-
-        btnSalvar.setFocusPainted(
-                false
-        );
-
-        btnSalvar.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        14
-                )
-        );
 
         contentPane.add(
-                btnSalvar
+                Estilo.centralizar(formulario),
+                BorderLayout.CENTER
         );
     }
 
@@ -350,11 +108,9 @@ public class TelaCriarTreino extends JFrame {
         return txtNome;
     }
 
-
     public JButton getBtnSalvar() {
         return btnSalvar;
     }
-
 
     public JButton getBtnVoltar() {
         return btnVoltar;

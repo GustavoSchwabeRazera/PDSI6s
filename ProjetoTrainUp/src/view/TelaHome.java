@@ -1,14 +1,19 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Font;
+import static view.Fontes.px;
+
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 public class TelaHome extends JFrame {
 
@@ -23,221 +28,111 @@ public class TelaHome extends JFrame {
 
     private JLabel lblBemVindo;
 
-    private static final Color PRETO =
-            new Color(18, 18, 18);
-
-    private static final Color PRETO_CLARO =
-            new Color(30, 30, 30);
-
-    private static final Color ROXO =
-            new Color(138, 43, 226);
-
-    private static final Color BRANCO =
-            new Color(245, 245, 245);
-
-    private static final Color CINZA =
-            new Color(180, 180, 180);
-
 
     public TelaHome() {
 
         setTitle("TrainUp - Home");
 
-        setDefaultCloseOperation(
-                JFrame.EXIT_ON_CLOSE
-        );
+        Icone.aplicar(this);
 
-        setSize(900, 600);
-
-        setResizable(false);
-
-        setLocationRelativeTo(null);
-
-        contentPane = new JPanel();
-
-        contentPane.setBackground(PRETO);
-
-        contentPane.setBorder(
-                new EmptyBorder(5, 5, 5, 5)
-        );
-
-        contentPane.setLayout(null);
+        contentPane = Estilo.criarFundo();
 
         setContentPane(contentPane);
 
         criarComponentes();
+
+        Janela.configurar(this);
     }
 
 
     private void criarComponentes() {
 
         // =========================
-        // LOGO
+        // CABEÇALHO
         // =========================
 
-        JLabel lblLogo =
-                new JLabel("TRAINUP");
+        btnSair = Estilo.criarBotaoCabecalho("SAIR");
 
-        lblLogo.setBounds(
-                40, 25, 200, 50
+        contentPane.add(
+                Estilo.criarCabecalho(btnSair),
+                BorderLayout.NORTH
         );
-
-        lblLogo.setForeground(ROXO);
-
-        lblLogo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        28
-                )
-        );
-
-        contentPane.add(lblLogo);
 
 
         // =========================
-        // SAIR
+        // CONTEÚDO
         // =========================
 
-        btnSair =
-                new JButton("SAIR");
+        JPanel conteudo = Estilo.criarPainel(new GridBagLayout());
 
-        btnSair.setBounds(
-                760, 30, 90, 35
-        );
+        GridBagConstraints c = new GridBagConstraints();
 
-        btnSair.setBackground(
-                PRETO_CLARO
-        );
-
-        btnSair.setForeground(BRANCO);
-
-        btnSair.setFocusPainted(false);
-
-        contentPane.add(btnSair);
+        c.gridx = 0;
+        c.weightx = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
 
 
-        // =========================
         // BEM-VINDO
-        // =========================
 
-        lblBemVindo =
-                new JLabel(
-                        "Bem-vindo ao TrainUp"
-                );
+        JPanel textos = Estilo.criarPainel(null);
 
-        lblBemVindo.setBounds(
-                60, 120, 700, 50
-        );
+        textos.setLayout(new BoxLayout(textos, BoxLayout.Y_AXIS));
 
-        lblBemVindo.setForeground(BRANCO);
+        lblBemVindo = Estilo.criarTitulo("Bem-vindo ao TrainUp");
 
-        lblBemVindo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        30
-                )
-        );
+        textos.add(lblBemVindo);
 
-        contentPane.add(lblBemVindo);
+        textos.add(Estilo.criarSubtitulo("O que você deseja fazer hoje?"));
+
+        c.gridy = 0;
+        c.insets = new Insets(0, 0, px(50), 0);
+
+        conteudo.add(textos, c);
 
 
-        JLabel lblSubtitulo =
-                new JLabel(
-                        "O que você deseja fazer hoje?"
-                );
-
-        lblSubtitulo.setBounds(
-                60, 170, 500, 30
-        );
-
-        lblSubtitulo.setForeground(CINZA);
-
-        contentPane.add(lblSubtitulo);
-
-
-        // =========================
         // CARDS
-        // =========================
 
-        btnTreinos = criarCard(
-                "MEUS TREINOS",
-                60,
-                250
+        JPanel cards = Estilo.criarPainel(new GridLayout(1, 3, px(40), 0));
+
+        btnTreinos = criarCard("MEUS TREINOS");
+        btnExercicios = criarCard("EXERCÍCIOS");
+        btnProgresso = criarCard("PROGRESSO");
+
+        cards.add(btnTreinos);
+        cards.add(btnExercicios);
+        cards.add(btnProgresso);
+
+        c.gridy = 1;
+        c.ipady = px(220);
+        c.insets = new Insets(0, 0, px(50), 0);
+
+        conteudo.add(cards, c);
+
+
+        // FRASE
+
+        c.gridy = 2;
+        c.ipady = 0;
+        c.insets = new Insets(0, 0, 0, 0);
+
+        conteudo.add(
+                Estilo.criarSubtitulo("Continue evoluindo. Cada treino conta."),
+                c
         );
 
-        contentPane.add(btnTreinos);
 
-
-        btnExercicios = criarCard(
-                "EXERCÍCIOS",
-                330,
-                250
-        );
-
-        contentPane.add(btnExercicios);
-
-
-        btnProgresso = criarCard(
-                "PROGRESSO",
-                600,
-                250
-        );
-
-        contentPane.add(btnProgresso);
-
-
-        JLabel lblFrase =
-                new JLabel(
-                        "Continue evoluindo. Cada treino conta."
-                );
-
-        lblFrase.setBounds(
-                60, 470, 700, 30
-        );
-
-        lblFrase.setForeground(CINZA);
-
-        contentPane.add(lblFrase);
+        contentPane.add(conteudo, BorderLayout.CENTER);
     }
 
 
-    private JButton criarCard(
-            String texto,
-            int x,
-            int y
-    ) {
+    private JButton criarCard(String texto) {
 
-        JButton botao =
-                new JButton(texto);
+        JButton botao = Estilo.criarBotaoSecundario(texto);
 
-        botao.setBounds(
-                x, y, 230, 150
-        );
-
-        botao.setBackground(
-                PRETO_CLARO
-        );
-
-        botao.setForeground(BRANCO);
-
-        botao.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        17
-                )
-        );
-
-        botao.setFocusPainted(false);
+        botao.setFont(Fontes.CARD);
 
         botao.setBorder(
-                BorderFactory
-                        .createLineBorder(
-                                ROXO,
-                                2
-                        )
+                BorderFactory.createLineBorder(Estilo.ROXO, 2)
         );
 
         return botao;

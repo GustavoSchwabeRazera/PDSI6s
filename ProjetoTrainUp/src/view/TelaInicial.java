@@ -1,13 +1,16 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Font;
+import static view.Fontes.px;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.SwingConstants;
 
 public class TelaInicial extends JFrame {
 
@@ -17,148 +20,94 @@ public class TelaInicial extends JFrame {
 
     private JButton btnEntrar;
     private JButton btnCadastrar;
-
-    private static final Color PRETO = new Color(18, 18, 18);
-    private static final Color ROXO = new Color(138, 43, 226);
-    private static final Color BRANCO = new Color(245, 245, 245);
-    private static final Color CINZA = new Color(180, 180, 180);
+    private JButton btnSair;
 
     public TelaInicial() {
 
         setTitle("TrainUp");
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Icone.aplicar(this);
 
-        setSize(500, 600);
-
-        setResizable(false);
-
-        setLocationRelativeTo(null);
-
-        contentPane = new JPanel();
-
-        contentPane.setBackground(PRETO);
-
-        contentPane.setBorder(
-                new EmptyBorder(5, 5, 5, 5)
-        );
-
-        contentPane.setLayout(null);
+        contentPane = Estilo.criarFundo();
 
         setContentPane(contentPane);
 
         criarComponentes();
+
+        Janela.configurar(this);
     }
 
 
     private void criarComponentes() {
 
         // =============================
+        // CABEÇALHO (SAIR)
+        // =============================
+
+        btnSair = Estilo.criarBotaoCabecalho("SAIR");
+
+        JPanel cabecalho = Estilo.criarPainel(new BorderLayout());
+
+        cabecalho.add(btnSair, BorderLayout.EAST);
+
+        contentPane.add(cabecalho, BorderLayout.NORTH);
+
+
+        // =============================
+        // CONTEÚDO
+        // =============================
+
+        JPanel formulario = Estilo.criarFormulario();
+
+
         // TÍTULO
-        // =============================
 
-        JLabel lblTitulo = new JLabel("TRAINUP");
+        JLabel lblTitulo = new JLabel("TRAINUP", SwingConstants.CENTER);
 
-        lblTitulo.setBounds(
-                50, 100, 400, 60
-        );
+        lblTitulo.setForeground(Estilo.ROXO);
 
-        lblTitulo.setHorizontalAlignment(
-                JLabel.CENTER
-        );
+        lblTitulo.setFont(Fontes.DESTAQUE);
 
-        lblTitulo.setForeground(ROXO);
-
-        lblTitulo.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        42
-                )
-        );
-
-        contentPane.add(lblTitulo);
+        Estilo.adicionar(formulario, lblTitulo);
 
 
-        // =============================
         // FRASE
-        // =============================
 
-        JLabel lblFrase = new JLabel(
+        JLabel lblFrase = Estilo.criarSubtitulo(
                 "Evolua seu treino. Acompanhe seu progresso."
         );
 
-        lblFrase.setBounds(
-                50, 165, 400, 30
+        lblFrase.setHorizontalAlignment(SwingConstants.CENTER);
+
+        Estilo.adicionar(formulario, lblFrase);
+
+        Estilo.espaco(formulario, 70);
+
+
+        // BOTÕES
+
+        btnEntrar = Estilo.criarBotaoPrimario("ENTRAR");
+
+        btnCadastrar = Estilo.criarBotaoContorno("CRIAR CONTA");
+
+        JPanel botoes = Estilo.criarPainel(new GridLayout(2, 1, 0, px(18)));
+
+        botoes.add(btnEntrar);
+        botoes.add(btnCadastrar);
+
+        botoes.setPreferredSize(
+                new Dimension(0, px(50) * 2 + px(18))
         );
 
-        lblFrase.setHorizontalAlignment(
-                JLabel.CENTER
+        Estilo.adicionar(formulario, botoes);
+
+        Estilo.espaco(formulario, 60);
+
+
+        contentPane.add(
+                Estilo.centralizar(formulario),
+                BorderLayout.CENTER
         );
-
-        lblFrase.setForeground(CINZA);
-
-        lblFrase.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.PLAIN,
-                        14
-                )
-        );
-
-        contentPane.add(lblFrase);
-
-
-        // =============================
-        // ENTRAR
-        // =============================
-
-        btnEntrar = new JButton("ENTRAR");
-
-        btnEntrar.setBounds(
-                100, 280, 300, 50
-        );
-
-        btnEntrar.setBackground(ROXO);
-        btnEntrar.setForeground(BRANCO);
-        btnEntrar.setFocusPainted(false);
-
-        btnEntrar.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        16
-                )
-        );
-
-        contentPane.add(btnEntrar);
-
-
-        // =============================
-        // CADASTRAR
-        // =============================
-
-        btnCadastrar = new JButton(
-                "CRIAR CONTA"
-        );
-
-        btnCadastrar.setBounds(
-                100, 350, 300, 50
-        );
-
-        btnCadastrar.setBackground(PRETO);
-        btnCadastrar.setForeground(ROXO);
-        btnCadastrar.setFocusPainted(false);
-
-        btnCadastrar.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        16
-                )
-        );
-
-        contentPane.add(btnCadastrar);
     }
 
 
@@ -172,5 +121,9 @@ public class TelaInicial extends JFrame {
 
     public JButton getBtnCadastrar() {
         return btnCadastrar;
+    }
+
+    public JButton getBtnSair() {
+        return btnSair;
     }
 }
