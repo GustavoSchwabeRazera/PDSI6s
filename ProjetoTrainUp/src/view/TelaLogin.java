@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
+import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -9,151 +9,94 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import java.awt.Color;
 
 public class TelaLogin extends JFrame {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField txtEmail;
+	private JPasswordField txtSenha;
+	private JButton btnEntrar;
+	private JButton btnEntrarGoogle;
+	private JButton btnCadastrar;
+	private JButton btnVoltar;
 
-    private JPanel contentPane;
+	public TelaLogin() {
+		setTitle("TrainUp - Login");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 400, 370);
+		setLocationRelativeTo(null);
 
-    private JTextField txtEmail;
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(128, 255, 255));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(null);
+		setContentPane(contentPane);
 
-    private JPasswordField txtSenha;
+		JLabel lblTitulo = new JLabel("Entrar");
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblTitulo.setBounds(50, 20, 290, 30);
+		contentPane.add(lblTitulo);
 
-    private JButton btnEntrar;
-    private JButton btnCadastrar;
-    private JButton btnVoltar;
+		JLabel lblEmail = new JLabel("E-mail:");
+		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblEmail.setBounds(40, 70, 70, 25);
+		contentPane.add(lblEmail);
 
+		txtEmail = new JTextField();
+		txtEmail.setBounds(110, 70, 230, 25);
+		contentPane.add(txtEmail);
 
-    public TelaLogin() {
+		JLabel lblSenha = new JLabel("Senha:");
+		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblSenha.setBounds(40, 110, 70, 25);
+		contentPane.add(lblSenha);
 
-        setTitle("TrainUp - Login");
+		txtSenha = new JPasswordField();
+		txtSenha.setBounds(110, 110, 230, 25);
+		contentPane.add(txtSenha);
 
-        Icone.aplicar(this);
+		btnEntrar = new JButton("Entrar");
+		btnEntrar.setBounds(40, 155, 300, 30);
+		contentPane.add(btnEntrar);
 
-        contentPane = Estilo.criarFundo();
+		btnEntrarGoogle = new JButton("Entrar com Google");
+		btnEntrarGoogle.setBounds(40, 195, 300, 30);
+		contentPane.add(btnEntrarGoogle);
 
-        setContentPane(contentPane);
+		btnCadastrar = new JButton("Não possui conta? Cadastre-se");
+		btnCadastrar.setBounds(40, 235, 300, 30);
+		contentPane.add(btnCadastrar);
 
-        criarComponentes();
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.setBounds(40, 275, 300, 30);
+		contentPane.add(btnVoltar);
+	}
 
-        Janela.configurar(this);
-    }
+	public JTextField getTxtEmail() {
+		return txtEmail;
+	}
 
+	public JPasswordField getTxtSenha() {
+		return txtSenha;
+	}
 
-    private void criarComponentes() {
+	public JButton getBtnEntrar() {
+		return btnEntrar;
+	}
 
-        // ===========================
-        // CABEÇALHO
-        // ===========================
+	public JButton getBtnEntrarGoogle() {
+		return btnEntrarGoogle;
+	}
 
-        btnVoltar = Estilo.criarBotaoCabecalho("VOLTAR");
+	public JButton getBtnCadastrar() {
+		return btnCadastrar;
+	}
 
-        contentPane.add(
-                Estilo.criarCabecalho(btnVoltar),
-                BorderLayout.NORTH
-        );
-
-
-        // ===========================
-        // FORMULÁRIO
-        // ===========================
-
-        JPanel formulario = Estilo.criarFormulario();
-
-
-        // TÍTULO
-
-        JLabel lblTitulo = Estilo.criarTitulo("ENTRAR");
-
-        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-
-        Estilo.adicionar(formulario, lblTitulo);
-
-
-        // SUBTÍTULO
-
-        JLabel lblSubtitulo =
-                Estilo.criarSubtitulo("Entre na sua conta TrainUp");
-
-        lblSubtitulo.setHorizontalAlignment(SwingConstants.CENTER);
-
-        Estilo.adicionar(formulario, lblSubtitulo);
-
-        Estilo.espaco(formulario, 40);
-
-
-        // EMAIL
-
-        Estilo.adicionar(formulario, Estilo.criarRotulo("E-MAIL"));
-
-        txtEmail = Estilo.criarCampo();
-
-        Estilo.adicionar(formulario, txtEmail);
-
-        Estilo.espaco(formulario, 20);
-
-
-        // SENHA
-
-        Estilo.adicionar(formulario, Estilo.criarRotulo("SENHA"));
-
-        txtSenha = Estilo.criarCampoSenha();
-
-        Estilo.adicionar(formulario, txtSenha);
-
-        Estilo.espaco(formulario, 35);
-
-
-        // ENTRAR
-
-        btnEntrar = Estilo.criarBotaoPrimario("ENTRAR");
-
-        Estilo.adicionar(formulario, btnEntrar);
-
-        Estilo.espaco(formulario, 20);
-
-
-        // CADASTRAR
-
-        btnCadastrar = Estilo.criarBotaoLink(
-                "Não possui conta? Cadastre-se",
-                Estilo.ROXO
-        );
-
-        Estilo.adicionar(formulario, btnCadastrar);
-
-        Estilo.espaco(formulario, 60);
-
-
-        contentPane.add(
-                Estilo.centralizar(formulario),
-                BorderLayout.CENTER
-        );
-    }
-
-
-    // ===========================
-    // GETTERS
-    // ===========================
-
-    public JTextField getTxtEmail() {
-        return txtEmail;
-    }
-
-    public JPasswordField getTxtSenha() {
-        return txtSenha;
-    }
-
-    public JButton getBtnEntrar() {
-        return btnEntrar;
-    }
-
-    public JButton getBtnCadastrar() {
-        return btnCadastrar;
-    }
-
-    public JButton getBtnVoltar() {
-        return btnVoltar;
-    }
+	public JButton getBtnVoltar() {
+		return btnVoltar;
+	}
 }

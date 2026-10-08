@@ -1,22 +1,16 @@
 package main;
 
-import javax.swing.SwingUtilities;
+import java.awt.EventQueue;
 
 import controller.controller;
-import view.Fontes;
 
 public class Main {
 
-    public static void main(String[] args) {
-
-        SwingUtilities.invokeLater(
-                () -> {
-
-                    Fontes.aplicarPadrao();
-
-                    new controller();
-
-                }
-        );
-    }
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				new controller();
+			}
+		});
+	}
 }

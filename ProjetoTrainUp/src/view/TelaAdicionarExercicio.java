@@ -1,171 +1,95 @@
 package view;
 
-import static view.Fontes.px;
+import java.awt.Font;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import java.awt.Color;
 
 public class TelaAdicionarExercicio extends JFrame {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField txtNome;
+	private JTextField txtSeries;
+	private JTextField txtRepeticoes;
+	private JButton btnSalvar;
+	private JButton btnVoltar;
 
-    private JPanel contentPane;
+	public TelaAdicionarExercicio() {
+		setTitle("TrainUp - Exercício");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 400, 290);
+		setLocationRelativeTo(null);
 
-    private JTextField txtNome;
-    private JTextField txtSeries;
-    private JTextField txtRepeticoes;
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(128, 255, 255));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(null);
+		setContentPane(contentPane);
 
-    private JButton btnSalvar;
-    private JButton btnVoltar;
+		JLabel lblTitulo = new JLabel("Exercício");
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTitulo.setBounds(30, 15, 300, 30);
+		contentPane.add(lblTitulo);
 
+		JLabel lblNome = new JLabel("Nome:");
+		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNome.setBounds(30, 60, 100, 25);
+		contentPane.add(lblNome);
 
-    // =============================================
-    // CONSTRUTOR
-    // =============================================
+		txtNome = new JTextField();
+		txtNome.setBounds(130, 60, 220, 25);
+		contentPane.add(txtNome);
 
-    public TelaAdicionarExercicio() {
+		JLabel lblSeries = new JLabel("Séries:");
+		lblSeries.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblSeries.setBounds(30, 95, 100, 25);
+		contentPane.add(lblSeries);
 
-        setTitle("TrainUp - Adicionar Exercício");
+		txtSeries = new JTextField();
+		txtSeries.setBounds(130, 95, 80, 25);
+		contentPane.add(txtSeries);
 
-        Icone.aplicar(this);
+		JLabel lblRepeticoes = new JLabel("Repetições:");
+		lblRepeticoes.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblRepeticoes.setBounds(30, 130, 100, 25);
+		contentPane.add(lblRepeticoes);
 
-        contentPane = Estilo.criarFundo();
+		txtRepeticoes = new JTextField();
+		txtRepeticoes.setBounds(130, 130, 80, 25);
+		contentPane.add(txtRepeticoes);
 
-        setContentPane(contentPane);
+		btnSalvar = new JButton("Salvar");
+		btnSalvar.setBounds(30, 180, 150, 30);
+		contentPane.add(btnSalvar);
 
-        criarComponentes();
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.setBounds(200, 180, 150, 30);
+		contentPane.add(btnVoltar);
+	}
 
-        Janela.configurar(this);
-    }
+	public JTextField getTxtNome() {
+		return txtNome;
+	}
 
+	public JTextField getTxtSeries() {
+		return txtSeries;
+	}
 
-    // =============================================
-    // COMPONENTES
-    // =============================================
+	public JTextField getTxtRepeticoes() {
+		return txtRepeticoes;
+	}
 
-    private void criarComponentes() {
+	public JButton getBtnSalvar() {
+		return btnSalvar;
+	}
 
-        // =========================================
-        // CABEÇALHO
-        // =========================================
-
-        btnVoltar = Estilo.criarBotaoCabecalho("VOLTAR");
-
-        contentPane.add(
-                Estilo.criarCabecalho(btnVoltar),
-                BorderLayout.NORTH
-        );
-
-
-        // =========================================
-        // FORMULÁRIO
-        // =========================================
-
-        JPanel formulario = Estilo.criarFormulario();
-
-        Estilo.adicionar(formulario, Estilo.criarTitulo("Adicionar exercício"));
-
-        Estilo.espaco(formulario, 35);
-
-
-        // NOME
-
-        Estilo.adicionar(formulario, Estilo.criarRotulo("NOME DO EXERCÍCIO"));
-
-        txtNome = Estilo.criarCampo();
-
-        Estilo.adicionar(formulario, txtNome);
-
-        Estilo.espaco(formulario, 20);
-
-
-        // SÉRIES E REPETIÇÕES (lado a lado)
-
-        txtSeries = Estilo.criarCampo();
-
-        txtRepeticoes = Estilo.criarCampo();
-
-        JPanel linha = Estilo.criarPainel(new GridLayout(1, 2, px(20), 0));
-
-        linha.add(criarGrupo("SÉRIES", txtSeries));
-        linha.add(criarGrupo("REPETIÇÕES", txtRepeticoes));
-
-        linha.setPreferredSize(
-                new Dimension(0, linha.getPreferredSize().height)
-        );
-
-        Estilo.adicionar(formulario, linha);
-
-        Estilo.espaco(formulario, 35);
-
-
-        // SALVAR
-
-        btnSalvar = Estilo.criarBotaoPrimario("ADICIONAR EXERCÍCIO");
-
-        Estilo.adicionar(formulario, btnSalvar);
-
-        Estilo.espaco(formulario, 60);
-
-
-        contentPane.add(
-                Estilo.centralizar(formulario),
-                BorderLayout.CENTER
-        );
-    }
-
-
-    private JPanel criarGrupo(String rotulo, JTextField campo) {
-
-        JPanel grupo = Estilo.criarPainel(null);
-
-        grupo.setLayout(new BoxLayout(grupo, BoxLayout.Y_AXIS));
-
-        JLabel label = Estilo.criarRotulo(rotulo);
-
-        label.setAlignmentX(LEFT_ALIGNMENT);
-        campo.setAlignmentX(LEFT_ALIGNMENT);
-
-        campo.setMaximumSize(
-                new Dimension(Integer.MAX_VALUE, campo.getPreferredSize().height)
-        );
-
-        grupo.add(label);
-        grupo.add(campo);
-
-        return grupo;
-    }
-
-
-    // =============================================
-    // GETTERS
-    // =============================================
-
-    public JTextField getTxtNome() {
-        return txtNome;
-    }
-
-    public JTextField getTxtSeries() {
-        return txtSeries;
-    }
-
-    public JTextField getTxtRepeticoes() {
-        return txtRepeticoes;
-    }
-
-    public JButton getBtnSalvar() {
-        return btnSalvar;
-    }
-
-    public JButton getBtnVoltar() {
-        return btnVoltar;
-    }
+	public JButton getBtnVoltar() {
+		return btnVoltar;
+	}
 }

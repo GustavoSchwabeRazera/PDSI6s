@@ -1,129 +1,69 @@
 package view;
 
-import static view.Fontes.px;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import java.awt.Color;
 
 public class TelaInicial extends JFrame {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JButton btnEntrar;
+	private JButton btnCadastrar;
+	private JButton btnSair;
 
-    private JPanel contentPane;
+	public TelaInicial() {
+		setTitle("TrainUp");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 400, 320);
+		setLocationRelativeTo(null);
 
-    private JButton btnEntrar;
-    private JButton btnCadastrar;
-    private JButton btnSair;
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(128, 255, 255));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(null);
+		setContentPane(contentPane);
 
-    public TelaInicial() {
+		JLabel lblTitulo = new JLabel("TrainUp");
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 28));
+		lblTitulo.setBounds(50, 30, 290, 40);
+		contentPane.add(lblTitulo);
 
-        setTitle("TrainUp");
+		JLabel lblFrase = new JLabel("Evolua seu treino.");
+		lblFrase.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFrase.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblFrase.setBounds(50, 75, 290, 20);
+		contentPane.add(lblFrase);
 
-        Icone.aplicar(this);
+		btnEntrar = new JButton("Entrar");
+		btnEntrar.setBounds(100, 120, 190, 30);
+		contentPane.add(btnEntrar);
 
-        contentPane = Estilo.criarFundo();
+		btnCadastrar = new JButton("Criar conta");
+		btnCadastrar.setBounds(100, 160, 190, 30);
+		contentPane.add(btnCadastrar);
 
-        setContentPane(contentPane);
+		btnSair = new JButton("Sair");
+		btnSair.setBounds(100, 200, 190, 30);
+		contentPane.add(btnSair);
+	}
 
-        criarComponentes();
+	public JButton getBtnEntrar() {
+		return btnEntrar;
+	}
 
-        Janela.configurar(this);
-    }
+	public JButton getBtnCadastrar() {
+		return btnCadastrar;
+	}
 
-
-    private void criarComponentes() {
-
-        // =============================
-        // CABEÇALHO (SAIR)
-        // =============================
-
-        btnSair = Estilo.criarBotaoCabecalho("SAIR");
-
-        JPanel cabecalho = Estilo.criarPainel(new BorderLayout());
-
-        cabecalho.add(btnSair, BorderLayout.EAST);
-
-        contentPane.add(cabecalho, BorderLayout.NORTH);
-
-
-        // =============================
-        // CONTEÚDO
-        // =============================
-
-        JPanel formulario = Estilo.criarFormulario();
-
-
-        // TÍTULO
-
-        JLabel lblTitulo = new JLabel("TRAINUP", SwingConstants.CENTER);
-
-        lblTitulo.setForeground(Estilo.ROXO);
-
-        lblTitulo.setFont(Fontes.DESTAQUE);
-
-        Estilo.adicionar(formulario, lblTitulo);
-
-
-        // FRASE
-
-        JLabel lblFrase = Estilo.criarSubtitulo(
-                "Evolua seu treino. Acompanhe seu progresso."
-        );
-
-        lblFrase.setHorizontalAlignment(SwingConstants.CENTER);
-
-        Estilo.adicionar(formulario, lblFrase);
-
-        Estilo.espaco(formulario, 70);
-
-
-        // BOTÕES
-
-        btnEntrar = Estilo.criarBotaoPrimario("ENTRAR");
-
-        btnCadastrar = Estilo.criarBotaoContorno("CRIAR CONTA");
-
-        JPanel botoes = Estilo.criarPainel(new GridLayout(2, 1, 0, px(18)));
-
-        botoes.add(btnEntrar);
-        botoes.add(btnCadastrar);
-
-        botoes.setPreferredSize(
-                new Dimension(0, px(50) * 2 + px(18))
-        );
-
-        Estilo.adicionar(formulario, botoes);
-
-        Estilo.espaco(formulario, 60);
-
-
-        contentPane.add(
-                Estilo.centralizar(formulario),
-                BorderLayout.CENTER
-        );
-    }
-
-
-    // =============================
-    // GETTERS
-    // =============================
-
-    public JButton getBtnEntrar() {
-        return btnEntrar;
-    }
-
-    public JButton getBtnCadastrar() {
-        return btnCadastrar;
-    }
-
-    public JButton getBtnSair() {
-        return btnSair;
-    }
+	public JButton getBtnSair() {
+		return btnSair;
+	}
 }

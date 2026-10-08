@@ -1,171 +1,70 @@
 package view;
 
-import static view.Fontes.px;
+import java.awt.Font;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TelaHome extends JFrame {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JLabel lblBemVindo;
+	private JButton btnTreinos;
+	private JButton btnSair;
 
-    private JPanel contentPane;
+	public TelaHome() {
+		setTitle("TrainUp - Home");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 400, 270);
+		setLocationRelativeTo(null);
 
-    private JButton btnTreinos;
-    private JButton btnExercicios;
-    private JButton btnProgresso;
-    private JButton btnSair;
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(128, 255, 255));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(null);
+		setContentPane(contentPane);
 
-    private JLabel lblBemVindo;
+		lblBemVindo = new JLabel("Bem-vindo ao TrainUp");
+		lblBemVindo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBemVindo.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblBemVindo.setBounds(20, 30, 350, 30);
+		contentPane.add(lblBemVindo);
 
+		JLabel lblPergunta = new JLabel("O que você deseja fazer hoje?");
+		lblPergunta.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPergunta.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblPergunta.setBounds(20, 65, 350, 20);
+		contentPane.add(lblPergunta);
 
-    public TelaHome() {
+		btnTreinos = new JButton("Meus treinos");
+		
+		btnTreinos.setBackground(new Color(0, 0, 0));
+		btnTreinos.setBounds(100, 110, 190, 35);
+		contentPane.add(btnTreinos);
 
-        setTitle("TrainUp - Home");
+		btnSair = new JButton("Sair");
+		btnSair.setBackground(new Color(0, 0, 0));
+		btnSair.setBounds(100, 155, 190, 30);
+		contentPane.add(btnSair);
+	}
 
-        Icone.aplicar(this);
+	public void setNomeUsuario(String nome) {
+		lblBemVindo.setText("Olá, " + nome + "!");
+	}
 
-        contentPane = Estilo.criarFundo();
+	public JButton getBtnTreinos() {
+		return btnTreinos;
+	}
 
-        setContentPane(contentPane);
-
-        criarComponentes();
-
-        Janela.configurar(this);
-    }
-
-
-    private void criarComponentes() {
-
-        // =========================
-        // CABEÇALHO
-        // =========================
-
-        btnSair = Estilo.criarBotaoCabecalho("SAIR");
-
-        contentPane.add(
-                Estilo.criarCabecalho(btnSair),
-                BorderLayout.NORTH
-        );
-
-
-        // =========================
-        // CONTEÚDO
-        // =========================
-
-        JPanel conteudo = Estilo.criarPainel(new GridBagLayout());
-
-        GridBagConstraints c = new GridBagConstraints();
-
-        c.gridx = 0;
-        c.weightx = 1;
-        c.fill = GridBagConstraints.HORIZONTAL;
-
-
-        // BEM-VINDO
-
-        JPanel textos = Estilo.criarPainel(null);
-
-        textos.setLayout(new BoxLayout(textos, BoxLayout.Y_AXIS));
-
-        lblBemVindo = Estilo.criarTitulo("Bem-vindo ao TrainUp");
-
-        textos.add(lblBemVindo);
-
-        textos.add(Estilo.criarSubtitulo("O que você deseja fazer hoje?"));
-
-        c.gridy = 0;
-        c.insets = new Insets(0, 0, px(50), 0);
-
-        conteudo.add(textos, c);
-
-
-        // CARDS
-
-        JPanel cards = Estilo.criarPainel(new GridLayout(1, 3, px(40), 0));
-
-        btnTreinos = criarCard("MEUS TREINOS");
-        btnExercicios = criarCard("EXERCÍCIOS");
-        btnProgresso = criarCard("PROGRESSO");
-
-        cards.add(btnTreinos);
-        cards.add(btnExercicios);
-        cards.add(btnProgresso);
-
-        c.gridy = 1;
-        c.ipady = px(220);
-        c.insets = new Insets(0, 0, px(50), 0);
-
-        conteudo.add(cards, c);
-
-
-        // FRASE
-
-        c.gridy = 2;
-        c.ipady = 0;
-        c.insets = new Insets(0, 0, 0, 0);
-
-        conteudo.add(
-                Estilo.criarSubtitulo("Continue evoluindo. Cada treino conta."),
-                c
-        );
-
-
-        contentPane.add(conteudo, BorderLayout.CENTER);
-    }
-
-
-    private JButton criarCard(String texto) {
-
-        JButton botao = Estilo.criarBotaoSecundario(texto);
-
-        botao.setFont(Fontes.CARD);
-
-        botao.setBorder(
-                BorderFactory.createLineBorder(Estilo.ROXO, 2)
-        );
-
-        return botao;
-    }
-
-
-    public void setNomeUsuario(
-            String nome
-    ) {
-
-        lblBemVindo.setText(
-                "Olá, " + nome + "!"
-        );
-    }
-
-
-    // =========================
-    // GETTERS
-    // =========================
-
-    public JButton getBtnTreinos() {
-        return btnTreinos;
-    }
-
-    public JButton getBtnExercicios() {
-        return btnExercicios;
-    }
-
-    public JButton getBtnProgresso() {
-        return btnProgresso;
-    }
-
-    public JButton getBtnSair() {
-        return btnSair;
-    }
+	public JButton getBtnSair() {
+		return btnSair;
+	}
 }
