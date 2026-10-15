@@ -24,6 +24,7 @@ public class TelaDetalhesTreino extends Icone {
 	private JButton btnAdicionarExercicio;
 	private JButton btnEditar;
 	private JButton btnExcluir;
+	private JButton btnExportar;
 	private JButton btnVoltar;
 	private JLabel lblTitulo;
 
@@ -69,6 +70,10 @@ public class TelaDetalhesTreino extends Icone {
 		btnExcluir.setBounds(435, 155, 130, 30);
 		contentPane.add(btnExcluir);
 
+		btnExportar = new JButton("Exportar PNG");
+		btnExportar.setBounds(435, 195, 130, 30);
+		contentPane.add(btnExportar);
+
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.setBounds(435, 305, 130, 30);
 		contentPane.add(btnVoltar);
@@ -101,6 +106,10 @@ public class TelaDetalhesTreino extends Icone {
 
 	public JButton getBtnExcluir() {
 		return btnExcluir;
+	}
+
+	public JButton getBtnExportar() {
+		return btnExportar;
 	}
 
 	public JButton getBtnVoltar() {

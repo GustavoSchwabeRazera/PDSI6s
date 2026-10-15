@@ -1,10 +1,15 @@
 package controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import dao.ExercicioDAO;
 import dao.TreinoDAO;
@@ -12,6 +17,7 @@ import dao.UsuarioDAO;
 import model.Exercicio;
 import model.Treino;
 import model.Usuario;
+import service.ExportarTreino;
 import service.GoogleAuth;
 import view.TelaAdicionarExercicio;
 import view.TelaCadastro;
@@ -132,6 +138,7 @@ public class controller {
 		telaDetalhesTreino.getBtnAdicionarExercicio().addActionListener(e -> abrirTelaExercicio(null));
 		telaDetalhesTreino.getBtnEditar().addActionListener(e -> editarExercicio());
 		telaDetalhesTreino.getBtnExcluir().addActionListener(e -> excluirExercicio());
+		telaDetalhesTreino.getBtnExportar().addActionListener(e -> exportarTreino());
 		telaDetalhesTreino.getBtnVoltar().addActionListener(e -> abrirTelaTreinos());
 
 		try {
@@ -373,6 +380,39 @@ public class controller {
 			abrirTelaDetalhesTreino(treinoSelecionado);
 		} catch (SQLException erro) {
 			erroBanco(erro);
+		}
+	}
+
+	// =============================================
+	// EXPORTAR
+	// =============================================
+
+	private void exportarTreino() {
+		JFileChooser escolher = new JFileChooser();
+		escolher.setDialogTitle("Salvar treino como imagem");
+		escolher.setFileFilter(new FileNameExtensionFilter("Imagem PNG (*.png)", "png"));
+		escolher.setSelectedFile(new File(treinoSelecionado.getNome().replaceAll("[\\\\/:*?\"<>|]", "_") + ".png"));
+
+		if (escolher.showSaveDialog(telaDetalhesTreino) != JFileChooser.APPROVE_OPTION) {
+			return;
+		}
+
+		File arquivo = escolher.getSelectedFile();
+		if (!arquivo.getName().toLowerCase().endsWith(".png")) {
+			arquivo = new File(arquivo.getParentFile(), arquivo.getName() + ".png");
+		}
+		if (arquivo.exists() && !confirmar("O arquivo \"" + arquivo.getName() + "\" já existe. Substituir?")) {
+			return;
+		}
+
+		try {
+			List<Exercicio> exercicios = exercicioDAO.listarPorTreino(treinoSelecionado.getId());
+			ExportarTreino.salvarPng(treinoSelecionado, exercicios, usuarioLogado.getNome(), arquivo);
+			JOptionPane.showMessageDialog(telaDetalhesTreino, "Treino exportado para:\n" + arquivo.getAbsolutePath());
+		} catch (SQLException erro) {
+			erroBanco(erro);
+		} catch (IOException erro) {
+			JOptionPane.showMessageDialog(telaDetalhesTreino, "Não foi possível salvar a imagem:\n" + erro.getMessage());
 		}
 	}
 
