@@ -42,6 +42,7 @@ public class controller {
 	private Exercicio exercicioEditando;
 
 	public controller() {
+		
 		abrirTelaInicial();
 	}
 
@@ -126,7 +127,8 @@ public class controller {
 
 		treinoSelecionado = treino;
 
-		telaDetalhesTreino = new TelaDetalhesTreino(treino);
+		telaDetalhesTreino = new TelaDetalhesTreino();
+		telaDetalhesTreino.setTreino(treino);
 		telaDetalhesTreino.getBtnAdicionarExercicio().addActionListener(e -> abrirTelaExercicio(null));
 		telaDetalhesTreino.getBtnEditar().addActionListener(e -> editarExercicio());
 		telaDetalhesTreino.getBtnExcluir().addActionListener(e -> excluirExercicio());

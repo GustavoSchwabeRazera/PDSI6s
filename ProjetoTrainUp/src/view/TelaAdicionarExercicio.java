@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 
-public class TelaAdicionarExercicio extends JFrame {
+public class TelaAdicionarExercicio extends Icone {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;

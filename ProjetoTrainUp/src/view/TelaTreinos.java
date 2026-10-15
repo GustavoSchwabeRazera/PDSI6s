@@ -14,7 +14,7 @@ import javax.swing.border.EmptyBorder;
 import model.Treino;
 import java.awt.Color;
 
-public class TelaTreinos extends JFrame {
+public class TelaTreinos extends Icone {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;

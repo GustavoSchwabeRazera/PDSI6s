@@ -3,6 +3,7 @@ package view;
 import java.awt.Font;
 
 import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,7 +13,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 
-public class TelaCadastro extends JFrame {
+public class TelaCadastro extends Icone {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -27,7 +28,7 @@ public class TelaCadastro extends JFrame {
 	public TelaCadastro() {
 		setTitle("TrainUp - Cadastro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 420, 400);
+		setBounds(100, 100, 420, 490);
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();
@@ -36,63 +37,68 @@ public class TelaCadastro extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setIcon(new ImageIcon(TelaCadastro.class.getResource("/images/logo.png")));
+		lblLogo.setBounds(162, 10, 80, 80);
+		contentPane.add(lblLogo);
+
 		JLabel lblTitulo = new JLabel("Criar conta");
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 22));
-		lblTitulo.setBounds(50, 20, 310, 30);
+		lblTitulo.setBounds(50, 110, 310, 30);
 		contentPane.add(lblTitulo);
 
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNome.setBounds(30, 70, 130, 25);
+		lblNome.setBounds(30, 160, 130, 25);
 		contentPane.add(lblNome);
 
 		txtNome = new JTextField();
-		txtNome.setBounds(160, 70, 210, 25);
+		txtNome.setBounds(160, 160, 210, 25);
 		contentPane.add(txtNome);
 
 		JLabel lblEmail = new JLabel("E-mail:");
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblEmail.setBounds(30, 105, 130, 25);
+		lblEmail.setBounds(30, 195, 130, 25);
 		contentPane.add(lblEmail);
 
 		txtEmail = new JTextField();
-		txtEmail.setBounds(160, 105, 210, 25);
+		txtEmail.setBounds(160, 195, 210, 25);
 		contentPane.add(txtEmail);
 
 		JLabel lblIdade = new JLabel("Idade:");
 		lblIdade.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblIdade.setBounds(30, 140, 130, 25);
+		lblIdade.setBounds(30, 230, 130, 25);
 		contentPane.add(lblIdade);
 
 		txtIdade = new JTextField();
-		txtIdade.setBounds(160, 140, 80, 25);
+		txtIdade.setBounds(160, 230, 80, 25);
 		contentPane.add(txtIdade);
 
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblSenha.setBounds(30, 175, 130, 25);
+		lblSenha.setBounds(30, 265, 130, 25);
 		contentPane.add(lblSenha);
 
 		txtSenha = new JPasswordField();
-		txtSenha.setBounds(160, 175, 210, 25);
+		txtSenha.setBounds(160, 265, 210, 25);
 		contentPane.add(txtSenha);
 
 		JLabel lblConfirmarSenha = new JLabel("Confirmar senha:");
 		lblConfirmarSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblConfirmarSenha.setBounds(30, 210, 130, 25);
+		lblConfirmarSenha.setBounds(30, 300, 130, 25);
 		contentPane.add(lblConfirmarSenha);
 
 		txtConfirmarSenha = new JPasswordField();
-		txtConfirmarSenha.setBounds(160, 210, 210, 25);
+		txtConfirmarSenha.setBounds(160, 300, 210, 25);
 		contentPane.add(txtConfirmarSenha);
 
 		btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setBounds(30, 260, 340, 30);
+		btnCadastrar.setBounds(30, 350, 340, 30);
 		contentPane.add(btnCadastrar);
 
 		btnVoltar = new JButton("Voltar");
-		btnVoltar.setBounds(30, 300, 340, 30);
+		btnVoltar.setBounds(30, 390, 340, 30);
 		contentPane.add(btnVoltar);
 	}
 

@@ -3,6 +3,7 @@ package view;
 import java.awt.Font;
 
 import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,7 +13,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 
-public class TelaLogin extends JFrame {
+public class TelaLogin extends Icone {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -26,7 +27,7 @@ public class TelaLogin extends JFrame {
 	public TelaLogin() {
 		setTitle("TrainUp - Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 400, 370);
+		setBounds(100, 100, 400, 460);
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();
@@ -35,44 +36,49 @@ public class TelaLogin extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setIcon(new ImageIcon(TelaLogin.class.getResource("/images/logo.png")));
+		lblLogo.setBounds(152, 10, 80, 80);
+		contentPane.add(lblLogo);
+
 		JLabel lblTitulo = new JLabel("Entrar");
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 22));
-		lblTitulo.setBounds(50, 20, 290, 30);
+		lblTitulo.setBounds(50, 110, 290, 30);
 		contentPane.add(lblTitulo);
 
 		JLabel lblEmail = new JLabel("E-mail:");
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblEmail.setBounds(40, 70, 70, 25);
+		lblEmail.setBounds(40, 160, 70, 25);
 		contentPane.add(lblEmail);
 
 		txtEmail = new JTextField();
-		txtEmail.setBounds(110, 70, 230, 25);
+		txtEmail.setBounds(110, 160, 230, 25);
 		contentPane.add(txtEmail);
 
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblSenha.setBounds(40, 110, 70, 25);
+		lblSenha.setBounds(40, 200, 70, 25);
 		contentPane.add(lblSenha);
 
 		txtSenha = new JPasswordField();
-		txtSenha.setBounds(110, 110, 230, 25);
+		txtSenha.setBounds(110, 200, 230, 25);
 		contentPane.add(txtSenha);
 
 		btnEntrar = new JButton("Entrar");
-		btnEntrar.setBounds(40, 155, 300, 30);
+		btnEntrar.setBounds(40, 245, 300, 30);
 		contentPane.add(btnEntrar);
 
 		btnEntrarGoogle = new JButton("Entrar com Google");
-		btnEntrarGoogle.setBounds(40, 195, 300, 30);
+		btnEntrarGoogle.setBounds(40, 285, 300, 30);
 		contentPane.add(btnEntrarGoogle);
 
 		btnCadastrar = new JButton("Não possui conta? Cadastre-se");
-		btnCadastrar.setBounds(40, 235, 300, 30);
+		btnCadastrar.setBounds(40, 325, 300, 30);
 		contentPane.add(btnCadastrar);
 
 		btnVoltar = new JButton("Voltar");
-		btnVoltar.setBounds(40, 275, 300, 30);
+		btnVoltar.setBounds(40, 365, 300, 30);
 		contentPane.add(btnVoltar);
 	}
 

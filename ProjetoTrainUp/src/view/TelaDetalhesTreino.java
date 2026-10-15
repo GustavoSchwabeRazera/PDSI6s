@@ -15,7 +15,7 @@ import model.Exercicio;
 import model.Treino;
 import java.awt.Color;
 
-public class TelaDetalhesTreino extends JFrame {
+public class TelaDetalhesTreino extends Icone {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -25,9 +25,10 @@ public class TelaDetalhesTreino extends JFrame {
 	private JButton btnEditar;
 	private JButton btnExcluir;
 	private JButton btnVoltar;
+	private JLabel lblTitulo;
 
-	public TelaDetalhesTreino(Treino treino) {
-		setTitle("TrainUp - " + treino.getNome());
+	public TelaDetalhesTreino() {
+		setTitle("TrainUp - Treino");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 400);
 		setLocationRelativeTo(null);
@@ -38,7 +39,7 @@ public class TelaDetalhesTreino extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 
-		JLabel lblTitulo = new JLabel(treino.getNome());
+		lblTitulo = new JLabel("Nome do treino");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTitulo.setBounds(20, 15, 400, 30);
 		contentPane.add(lblTitulo);
@@ -71,6 +72,11 @@ public class TelaDetalhesTreino extends JFrame {
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.setBounds(435, 305, 130, 30);
 		contentPane.add(btnVoltar);
+	}
+
+	public void setTreino(Treino treino) {
+		setTitle("TrainUp - " + treino.getNome());
+		lblTitulo.setText(treino.getNome());
 	}
 
 	public void limparExercicios() {
