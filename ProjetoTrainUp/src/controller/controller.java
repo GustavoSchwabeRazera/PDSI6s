@@ -19,6 +19,7 @@ import model.Treino;
 import model.Usuario;
 import service.ExportarTreino;
 import service.GoogleAuth;
+import view.Icone;
 import view.TelaAdicionarExercicio;
 import view.TelaCadastro;
 import view.TelaCriarTreino;
@@ -53,12 +54,21 @@ public class controller {
 	}
 
 	// Fecha a tela atual e mostra a nova
-	private void mostrar(JFrame tela) {
+	private void mostrar(Icone tela) {
+		ligarMenu(tela);
 		if (telaAtual != null) {
 			telaAtual.dispose();
 		}
 		telaAtual = tela;
 		tela.setVisible(true);
+	}
+
+	// Todas as telas tem o mesmo menu (Arquivo e Ajuda)
+	private void ligarMenu(Icone tela) {
+		tela.getMiLimpar().addActionListener(e -> tela.limparCampos());
+		tela.getMiSair().addActionListener(e -> System.exit(0));
+		tela.getMiManual().addActionListener(e -> tela.mostrarManual());
+		tela.getMiSobre().addActionListener(e -> tela.mostrarSobre());
 	}
 
 	// =============================================

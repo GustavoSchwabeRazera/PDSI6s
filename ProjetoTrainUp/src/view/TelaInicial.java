@@ -25,8 +25,8 @@ public class TelaInicial extends Icone {
 	public TelaInicial() {
 		setTitle("TrainUp");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 400, 410);
-		setMinimumSize(new Dimension(320, 380));
+		setBounds(100, 100, 400, 435);
+		setMinimumSize(new Dimension(320, 405));
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();

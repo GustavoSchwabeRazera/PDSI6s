@@ -34,8 +34,8 @@ public class TelaDetalhesTreino extends Icone {
 	public TelaDetalhesTreino() {
 		setTitle("TrainUp - Treino");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 400);
-		setMinimumSize(new Dimension(480, 340));
+		setBounds(100, 100, 600, 425);
+		setMinimumSize(new Dimension(480, 365));
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();

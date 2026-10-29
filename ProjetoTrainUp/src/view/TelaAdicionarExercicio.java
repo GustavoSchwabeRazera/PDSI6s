@@ -26,8 +26,8 @@ public class TelaAdicionarExercicio extends Icone {
 	public TelaAdicionarExercicio() {
 		setTitle("TrainUp - Exercício");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 400, 290);
-		setMinimumSize(new Dimension(360, 280));
+		setBounds(100, 100, 400, 315);
+		setMinimumSize(new Dimension(360, 305));
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();

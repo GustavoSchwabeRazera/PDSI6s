@@ -25,8 +25,8 @@ public class TelaHome extends Icone {
 	public TelaHome() {
 		setTitle("TrainUp - Home");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 400, 360);
-		setMinimumSize(new Dimension(320, 340));
+		setBounds(100, 100, 400, 385);
+		setMinimumSize(new Dimension(320, 365));
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();

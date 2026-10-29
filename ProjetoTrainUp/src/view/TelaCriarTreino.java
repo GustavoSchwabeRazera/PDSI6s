@@ -24,8 +24,8 @@ public class TelaCriarTreino extends Icone {
 	public TelaCriarTreino() {
 		setTitle("TrainUp - Novo Treino");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 400, 220);
-		setMinimumSize(new Dimension(340, 210));
+		setBounds(100, 100, 400, 245);
+		setMinimumSize(new Dimension(340, 235));
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();

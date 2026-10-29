@@ -31,8 +31,8 @@ public class TelaCadastro extends Icone {
 	public TelaCadastro() {
 		setTitle("TrainUp - Cadastro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 420, 490);
-		setMinimumSize(new Dimension(380, 470));
+		setBounds(100, 100, 420, 515);
+		setMinimumSize(new Dimension(380, 495));
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();
