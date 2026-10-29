@@ -13,6 +13,9 @@ import javax.swing.border.EmptyBorder;
 
 import model.Treino;
 import java.awt.Color;
+import java.awt.Dimension;
+
+import net.miginfocom.swing.MigLayout;
 
 public class TelaTreinos extends Icone {
 
@@ -29,42 +32,38 @@ public class TelaTreinos extends Icone {
 		setTitle("TrainUp - Meus Treinos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 480, 400);
+		setMinimumSize(new Dimension(420, 320));
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(128, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
+		// lista ocupa a coluna 0 (cresce); botoes na coluna 1 com largura fixa
+		contentPane.setLayout(new MigLayout("insets 15", "[grow,fill]15[115!]", "[]10[]10[]10[]push[]"));
 		setContentPane(contentPane);
 
 		JLabel lblTitulo = new JLabel("Meus treinos");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblTitulo.setBounds(20, 15, 300, 30);
-		contentPane.add(lblTitulo);
+		contentPane.add(lblTitulo, "cell 0 0 2 1");
 
 		modeloLista = new DefaultListModel<>();
 		listaTreinos = new JList<>(modeloLista);
 		listaTreinos.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		JScrollPane scrollPane = new JScrollPane(listaTreinos);
-		scrollPane.setBounds(20, 55, 300, 280);
-		contentPane.add(scrollPane);
+		contentPane.add(scrollPane, "cell 0 1 1 4, grow, push");
 
 		btnNovoTreino = new JButton("Novo treino");
-		btnNovoTreino.setBounds(335, 55, 115, 30);
-		contentPane.add(btnNovoTreino);
+		contentPane.add(btnNovoTreino, "cell 1 1, growx, h 30!");
 
 		btnAbrir = new JButton("Abrir");
-		btnAbrir.setBounds(335, 95, 115, 30);
-		contentPane.add(btnAbrir);
+		contentPane.add(btnAbrir, "cell 1 2, growx, h 30!");
 
 		btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(335, 135, 115, 30);
-		contentPane.add(btnExcluir);
+		contentPane.add(btnExcluir, "cell 1 3, growx, h 30!");
 
 		btnVoltar = new JButton("Voltar");
-		btnVoltar.setBounds(335, 305, 115, 30);
-		contentPane.add(btnVoltar);
+		contentPane.add(btnVoltar, "cell 1 4, growx, aligny bottom, h 30!");
 	}
 
 	public void limparTreinos() {

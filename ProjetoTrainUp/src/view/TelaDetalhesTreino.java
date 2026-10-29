@@ -14,6 +14,9 @@ import javax.swing.border.EmptyBorder;
 import model.Exercicio;
 import model.Treino;
 import java.awt.Color;
+import java.awt.Dimension;
+
+import net.miginfocom.swing.MigLayout;
 
 public class TelaDetalhesTreino extends Icone {
 
@@ -32,51 +35,45 @@ public class TelaDetalhesTreino extends Icone {
 		setTitle("TrainUp - Treino");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 400);
+		setMinimumSize(new Dimension(480, 340));
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(128, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
+		// lista ocupa a coluna 0 (cresce); botoes na coluna 1 com largura fixa
+		contentPane.setLayout(new MigLayout("insets 15", "[grow,fill]15[130!]", "[]5[]5[]10[]10[]10[]push[]"));
 		setContentPane(contentPane);
 
 		lblTitulo = new JLabel("Nome do treino");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblTitulo.setBounds(20, 15, 400, 30);
-		contentPane.add(lblTitulo);
+		contentPane.add(lblTitulo, "cell 0 0 2 1");
 
 		JLabel lblExercicios = new JLabel("Exercícios deste treino:");
 		lblExercicios.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblExercicios.setBounds(20, 50, 300, 20);
-		contentPane.add(lblExercicios);
+		contentPane.add(lblExercicios, "cell 0 1 2 1");
 
 		modeloLista = new DefaultListModel<>();
 		listaExercicios = new JList<>(modeloLista);
 		listaExercicios.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		JScrollPane scrollPane = new JScrollPane(listaExercicios);
-		scrollPane.setBounds(20, 75, 400, 260);
-		contentPane.add(scrollPane);
+		contentPane.add(scrollPane, "cell 0 2 1 5, grow, push");
 
 		btnAdicionarExercicio = new JButton("Adicionar");
-		btnAdicionarExercicio.setBounds(435, 75, 130, 30);
-		contentPane.add(btnAdicionarExercicio);
+		contentPane.add(btnAdicionarExercicio, "cell 1 2, growx, h 30!");
 
 		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(435, 115, 130, 30);
-		contentPane.add(btnEditar);
+		contentPane.add(btnEditar, "cell 1 3, growx, h 30!");
 
 		btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(435, 155, 130, 30);
-		contentPane.add(btnExcluir);
+		contentPane.add(btnExcluir, "cell 1 4, growx, h 30!");
 
 		btnExportar = new JButton("Exportar PNG");
-		btnExportar.setBounds(435, 195, 130, 30);
-		contentPane.add(btnExportar);
+		contentPane.add(btnExportar, "cell 1 5, growx, h 30!");
 
 		btnVoltar = new JButton("Voltar");
-		btnVoltar.setBounds(435, 305, 130, 30);
-		contentPane.add(btnVoltar);
+		contentPane.add(btnVoltar, "cell 1 6, growx, aligny bottom, h 30!");
 	}
 
 	public void setTreino(Treino treino) {

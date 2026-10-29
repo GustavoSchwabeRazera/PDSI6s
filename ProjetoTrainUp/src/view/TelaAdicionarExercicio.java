@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Dimension;
+
+import net.miginfocom.swing.MigLayout;
 
 public class TelaAdicionarExercicio extends Icone {
 
@@ -24,53 +27,47 @@ public class TelaAdicionarExercicio extends Icone {
 		setTitle("TrainUp - Exercício");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 290);
+		setMinimumSize(new Dimension(360, 280));
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(128, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
+		// coluna 0 = rotulos, coluna 1 = campos (cresce com a janela)
+		contentPane.setLayout(new MigLayout("insets 15 25 15 25", "[100!][grow,fill]", "[]15[]10[]10[]push[]"));
 		setContentPane(contentPane);
 
 		JLabel lblTitulo = new JLabel("Exercício");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblTitulo.setBounds(30, 15, 300, 30);
-		contentPane.add(lblTitulo);
+		contentPane.add(lblTitulo, "cell 0 0 2 1");
 
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNome.setBounds(30, 60, 100, 25);
-		contentPane.add(lblNome);
+		contentPane.add(lblNome, "cell 0 1");
 
 		txtNome = new JTextField();
-		txtNome.setBounds(130, 60, 220, 25);
-		contentPane.add(txtNome);
+		contentPane.add(txtNome, "cell 1 1, h 25!");
 
 		JLabel lblSeries = new JLabel("Séries:");
 		lblSeries.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblSeries.setBounds(30, 95, 100, 25);
-		contentPane.add(lblSeries);
+		contentPane.add(lblSeries, "cell 0 2");
 
 		txtSeries = new JTextField();
-		txtSeries.setBounds(130, 95, 80, 25);
-		contentPane.add(txtSeries);
+		contentPane.add(txtSeries, "cell 1 2, w 80!, h 25!");
 
 		JLabel lblRepeticoes = new JLabel("Repetições:");
 		lblRepeticoes.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblRepeticoes.setBounds(30, 130, 100, 25);
-		contentPane.add(lblRepeticoes);
+		contentPane.add(lblRepeticoes, "cell 0 3");
 
 		txtRepeticoes = new JTextField();
-		txtRepeticoes.setBounds(130, 130, 80, 25);
-		contentPane.add(txtRepeticoes);
+		contentPane.add(txtRepeticoes, "cell 1 3, w 80!, h 25!");
 
+		// os dois botoes dividem a largura da linha igualmente
 		btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(30, 180, 150, 30);
-		contentPane.add(btnSalvar);
+		contentPane.add(btnSalvar, "cell 0 4 2 1, split 2, growx, sg botoes, h 30!");
 
 		btnVoltar = new JButton("Voltar");
-		btnVoltar.setBounds(200, 180, 150, 30);
-		contentPane.add(btnVoltar);
+		contentPane.add(btnVoltar, "cell 0 4, growx, sg botoes, h 30!");
 	}
 
 	public JTextField getTxtNome() {

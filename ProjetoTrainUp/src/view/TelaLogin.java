@@ -12,6 +12,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Dimension;
+
+import net.miginfocom.swing.MigLayout;
 
 public class TelaLogin extends Icone {
 
@@ -28,58 +31,51 @@ public class TelaLogin extends Icone {
 		setTitle("TrainUp - Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 460);
+		setMinimumSize(new Dimension(360, 440));
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(128, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
+		// coluna 0 = rotulos, coluna 1 = campos (cresce com a janela)
+		contentPane.setLayout(new MigLayout("insets 20 35 20 35", "[70!][grow,fill]",
+				"push[]20[]20[]10[]20[]10[]10[]10[]push"));
 		setContentPane(contentPane);
 
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(TelaLogin.class.getResource("/images/logo.png")));
-		lblLogo.setBounds(152, 10, 80, 80);
-		contentPane.add(lblLogo);
+		contentPane.add(lblLogo, "cell 0 0 2 1, alignx center");
 
 		JLabel lblTitulo = new JLabel("Entrar");
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 22));
-		lblTitulo.setBounds(50, 110, 290, 30);
-		contentPane.add(lblTitulo);
+		contentPane.add(lblTitulo, "cell 0 1 2 1, alignx center");
 
 		JLabel lblEmail = new JLabel("E-mail:");
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblEmail.setBounds(40, 160, 70, 25);
-		contentPane.add(lblEmail);
+		contentPane.add(lblEmail, "cell 0 2");
 
 		txtEmail = new JTextField();
-		txtEmail.setBounds(110, 160, 230, 25);
-		contentPane.add(txtEmail);
+		contentPane.add(txtEmail, "cell 1 2, h 25!");
 
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblSenha.setBounds(40, 200, 70, 25);
-		contentPane.add(lblSenha);
+		contentPane.add(lblSenha, "cell 0 3");
 
 		txtSenha = new JPasswordField();
-		txtSenha.setBounds(110, 200, 230, 25);
-		contentPane.add(txtSenha);
+		contentPane.add(txtSenha, "cell 1 3, h 25!");
 
 		btnEntrar = new JButton("Entrar");
-		btnEntrar.setBounds(40, 245, 300, 30);
-		contentPane.add(btnEntrar);
+		contentPane.add(btnEntrar, "cell 0 4 2 1, growx, h 30!");
 
 		btnEntrarGoogle = new JButton("Entrar com Google");
-		btnEntrarGoogle.setBounds(40, 285, 300, 30);
-		contentPane.add(btnEntrarGoogle);
+		contentPane.add(btnEntrarGoogle, "cell 0 5 2 1, growx, h 30!");
 
 		btnCadastrar = new JButton("Não possui conta? Cadastre-se");
-		btnCadastrar.setBounds(40, 325, 300, 30);
-		contentPane.add(btnCadastrar);
+		contentPane.add(btnCadastrar, "cell 0 6 2 1, growx, h 30!");
 
 		btnVoltar = new JButton("Voltar");
-		btnVoltar.setBounds(40, 365, 300, 30);
-		contentPane.add(btnVoltar);
+		contentPane.add(btnVoltar, "cell 0 7 2 1, growx, h 30!");
 	}
 
 	public JTextField getTxtEmail() {

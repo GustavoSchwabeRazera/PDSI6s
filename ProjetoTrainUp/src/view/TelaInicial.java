@@ -10,6 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Dimension;
+
+import net.miginfocom.swing.MigLayout;
 
 public class TelaInicial extends Icone {
 
@@ -23,42 +26,38 @@ public class TelaInicial extends Icone {
 		setTitle("TrainUp");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 410);
+		setMinimumSize(new Dimension(320, 380));
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(128, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
+		// coluna unica centralizada; "push" em cima e embaixo centraliza na vertical
+		contentPane.setLayout(new MigLayout("insets 20", "[grow,center]", "push[]20[]5[]25[]10[]10[]push"));
 		setContentPane(contentPane);
 
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(TelaInicial.class.getResource("/images/logo.png")));
-		lblLogo.setBounds(152, 10, 80, 80);
-		contentPane.add(lblLogo);
+		contentPane.add(lblLogo, "cell 0 0");
 
 		JLabel lblTitulo = new JLabel("TrainUp");
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 28));
-		lblTitulo.setBounds(50, 120, 290, 40);
-		contentPane.add(lblTitulo);
+		contentPane.add(lblTitulo, "cell 0 1");
 
 		JLabel lblFrase = new JLabel("Evolua seu treino.");
 		lblFrase.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFrase.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblFrase.setBounds(50, 165, 290, 20);
-		contentPane.add(lblFrase);
+		contentPane.add(lblFrase, "cell 0 2");
 
 		btnEntrar = new JButton("Entrar");
-		btnEntrar.setBounds(100, 210, 190, 30);
-		contentPane.add(btnEntrar);
+		contentPane.add(btnEntrar, "cell 0 3, growx, wmin 190, wmax 350, h 30!");
 
 		btnCadastrar = new JButton("Criar conta");
-		btnCadastrar.setBounds(100, 250, 190, 30);
-		contentPane.add(btnCadastrar);
+		contentPane.add(btnCadastrar, "cell 0 4, growx, wmin 190, wmax 350, h 30!");
 
 		btnSair = new JButton("Sair");
-		btnSair.setBounds(100, 290, 190, 30);
-		contentPane.add(btnSair);
+		contentPane.add(btnSair, "cell 0 5, growx, wmin 190, wmax 350, h 30!");
 	}
 
 	public JButton getBtnEntrar() {

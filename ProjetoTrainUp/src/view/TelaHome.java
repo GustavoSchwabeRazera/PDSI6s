@@ -10,8 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.Dimension;
+
+import net.miginfocom.swing.MigLayout;
 
 public class TelaHome extends Icone {
 
@@ -25,41 +26,36 @@ public class TelaHome extends Icone {
 		setTitle("TrainUp - Home");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 360);
+		setMinimumSize(new Dimension(320, 340));
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(128, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
+		contentPane.setLayout(new MigLayout("insets 20", "[grow,center]", "push[]25[]5[]25[]10[]push"));
 		setContentPane(contentPane);
 
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(TelaHome.class.getResource("/images/logo.png")));
-		lblLogo.setBounds(152, 10, 80, 80);
-		contentPane.add(lblLogo);
+		contentPane.add(lblLogo, "cell 0 0");
 
 		lblBemVindo = new JLabel("Bem-vindo ao TrainUp");
 		lblBemVindo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBemVindo.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblBemVindo.setBounds(20, 120, 350, 30);
-		contentPane.add(lblBemVindo);
+		contentPane.add(lblBemVindo, "cell 0 1");
 
 		JLabel lblPergunta = new JLabel("O que você deseja fazer hoje?");
 		lblPergunta.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPergunta.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPergunta.setBounds(20, 155, 350, 20);
-		contentPane.add(lblPergunta);
+		contentPane.add(lblPergunta, "cell 0 2");
 
 		btnTreinos = new JButton("Meus treinos");
-		
 		btnTreinos.setBackground(new Color(255, 255, 255));
-		btnTreinos.setBounds(100, 200, 190, 35);
-		contentPane.add(btnTreinos);
+		contentPane.add(btnTreinos, "cell 0 3, growx, wmin 190, wmax 350, h 35!");
 
 		btnSair = new JButton("Sair");
 		btnSair.setBackground(new Color(255, 255, 255));
-		btnSair.setBounds(100, 245, 190, 30);
-		contentPane.add(btnSair);
+		contentPane.add(btnSair, "cell 0 4, growx, wmin 190, wmax 350, h 30!");
 	}
 
 	public void setNomeUsuario(String nome) {
