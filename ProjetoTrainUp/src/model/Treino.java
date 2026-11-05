@@ -70,6 +70,18 @@ public class Treino {
 
 
     // =============================================
+    // REGRAS DO TREINO
+    // =============================================
+
+    public void validar() {
+
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Digite o nome do treino.");
+        }
+    }
+
+
+    // =============================================
     // TOSTRING
     // =============================================
 

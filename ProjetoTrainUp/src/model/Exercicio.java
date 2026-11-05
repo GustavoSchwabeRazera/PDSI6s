@@ -115,6 +115,22 @@ public class Exercicio {
 
 
     // =============================================
+    // REGRAS DO EXERCÍCIO
+    // =============================================
+
+    public void validar() {
+
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Digite o nome do exercício.");
+        }
+
+        if (series <= 0 || repeticoes <= 0) {
+            throw new IllegalArgumentException("Séries e repetições devem ser maiores que zero.");
+        }
+    }
+
+
+    // =============================================
     // TEXTO MOSTRADO NA LISTA
     // =============================================
 

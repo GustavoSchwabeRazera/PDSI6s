@@ -62,6 +62,25 @@ public class Usuario {
         this.idade = idade;
     }
 
+    // Regras que olham só para este objeto. A duplicidade de e-mail depende
+    // dos outros registros, por isso é verificada com o UsuarioDAO.
+    // A conta do Google não passa por aqui: ela entra com idade 0 e senha aleatória.
+    public void validar() {
+        if (nome == null || nome.isBlank()
+                || email == null || email.isBlank()
+                || senha == null || senha.isEmpty()) {
+            throw new IllegalArgumentException("Preencha todos os campos.");
+        }
+
+        if (senha.length() < 6) {
+            throw new IllegalArgumentException("A senha deve ter pelo menos 6 caracteres.");
+        }
+
+        if (idade <= 0 || idade > 120) {
+            throw new IllegalArgumentException("Digite uma idade válida.");
+        }
+    }
+
     @Override
     public String toString() {
         return String.format(

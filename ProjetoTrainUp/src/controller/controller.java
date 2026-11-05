@@ -245,26 +245,19 @@ public class controller {
 		String senha = new String(telaCadastro.getTxtSenha().getPassword());
 		String confirmarSenha = new String(telaCadastro.getTxtConfirmarSenha().getPassword());
 
-		if (nome.isEmpty() || email.isEmpty() || idadeTexto.isEmpty() || senha.isEmpty()) {
+		// A idade ainda é texto aqui: converter para número é papel do controller
+		if (idadeTexto.isEmpty()) {
 			JOptionPane.showMessageDialog(telaCadastro, "Preencha todos os campos.");
 			return;
 		}
 
-		if (senha.length() < 6) {
-			JOptionPane.showMessageDialog(telaCadastro, "A senha deve ter pelo menos 6 caracteres.");
-			return;
-		}
-
-		if (!senha.equals(confirmarSenha)) {
-			JOptionPane.showMessageDialog(telaCadastro, "As senhas não são iguais.");
-			return;
-		}
-
 		try {
-			int idade = Integer.parseInt(idadeTexto);
+			Usuario novo = new Usuario(nome, email, senha, Integer.parseInt(idadeTexto));
+			novo.validar();
 
-			if (idade <= 0 || idade > 120) {
-				JOptionPane.showMessageDialog(telaCadastro, "Digite uma idade válida.");
+			// A confirmação só existe na tela: não é um dado do usuário
+			if (!senha.equals(confirmarSenha)) {
+				JOptionPane.showMessageDialog(telaCadastro, "As senhas não são iguais.");
 				return;
 			}
 
@@ -273,12 +266,15 @@ public class controller {
 				return;
 			}
 
-			usuarioDAO.inserir(new Usuario(nome, email, senha, idade));
+			usuarioDAO.inserir(novo);
 
 			JOptionPane.showMessageDialog(telaCadastro, "Cadastro realizado com sucesso!");
 			abrirTelaLogin();
 		} catch (NumberFormatException erro) {
+			// Vem antes porque NumberFormatException também é IllegalArgumentException
 			JOptionPane.showMessageDialog(telaCadastro, "A idade deve conter apenas números.");
+		} catch (IllegalArgumentException erro) {
+			JOptionPane.showMessageDialog(telaCadastro, erro.getMessage());
 		} catch (SQLException erro) {
 			erroBanco(erro);
 		}
@@ -291,14 +287,14 @@ public class controller {
 	private void salvarTreino() {
 		String nome = telaCriarTreino.getTxtNome().getText().trim();
 
-		if (nome.isEmpty()) {
-			JOptionPane.showMessageDialog(telaCriarTreino, "Digite o nome do treino.");
-			return;
-		}
-
 		try {
-			treinoDAO.inserir(new Treino(nome, usuarioLogado.getId()));
+			Treino novo = new Treino(nome, usuarioLogado.getId());
+			novo.validar();
+
+			treinoDAO.inserir(novo);
 			abrirTelaTreinos();
+		} catch (IllegalArgumentException erro) {
+			JOptionPane.showMessageDialog(telaCriarTreino, erro.getMessage());
 		} catch (SQLException erro) {
 			erroBanco(erro);
 		}
@@ -342,22 +338,16 @@ public class controller {
 	private void salvarExercicio() {
 		String nome = telaExercicio.getTxtNome().getText().trim();
 
-		if (nome.isEmpty()) {
-			JOptionPane.showMessageDialog(telaExercicio, "Digite o nome do exercício.");
-			return;
-		}
-
 		try {
 			int series = Integer.parseInt(telaExercicio.getTxtSeries().getText().trim());
 			int repeticoes = Integer.parseInt(telaExercicio.getTxtRepeticoes().getText().trim());
 
-			if (series <= 0 || repeticoes <= 0) {
-				JOptionPane.showMessageDialog(telaExercicio, "Séries e repetições devem ser maiores que zero.");
-				return;
-			}
+			// Valida antes de mexer no exercício que está sendo editado
+			Exercicio dados = new Exercicio(nome, series, repeticoes, treinoSelecionado.getId());
+			dados.validar();
 
 			if (exercicioEditando == null) {
-				exercicioDAO.inserir(new Exercicio(nome, series, repeticoes, treinoSelecionado.getId()));
+				exercicioDAO.inserir(dados);
 			} else {
 				exercicioEditando.setNome(nome);
 				exercicioEditando.setSeries(series);
@@ -367,7 +357,10 @@ public class controller {
 
 			abrirTelaDetalhesTreino(treinoSelecionado);
 		} catch (NumberFormatException erro) {
+			// Vem antes porque NumberFormatException também é IllegalArgumentException
 			JOptionPane.showMessageDialog(telaExercicio, "Séries e repetições devem ser números.");
+		} catch (IllegalArgumentException erro) {
+			JOptionPane.showMessageDialog(telaExercicio, erro.getMessage());
 		} catch (SQLException erro) {
 			erroBanco(erro);
 		}
