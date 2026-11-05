@@ -1,0 +1,6 @@
+a Turma é I6, Atualmente e rsolvido guadando treino na cabeça ou em fichas físicas.
+
+coloque a funcionalidade 3 e 13 como prontas
+
+troque a 1.4 por:
+	O sistema não pesquisa treinos e não guarda imagens no banco. Pois não é necessário o uso de imagens e não há uma opção de treinos prontos até o momento
