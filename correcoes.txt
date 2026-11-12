@@ -4,3 +4,45 @@ coloque a funcionalidade 3 e 13 como prontas
 
 troque a 1.4 por:
 	O sistema não pesquisa treinos e não guarda imagens no banco. Pois não é necessário o uso de imagens e não há uma opção de treinos prontos até o momento
+
+
+Responda também:
+• Por que valores em dinheiro usam DECIMAL e não FLOAT?
+O TrainUp não guarda dinheiro. Em geral, usa-se DECIMAL porque ele guarda o valor exato, enquanto FLOAT é aproximado e
+acumula erros de arredondamento. O script antigo tinha carga FLOAT, removida em 17/09/2026.
+• Por que código, CPF, placa e telefone são VARCHAR mesmo sendo só números?
+O TrainUp não tem esses campos. Eles são VARCHAR porque são identificadores, não quantidades: não se faz conta com eles
+e um número perderia zeros à esquerda. O e-mail segue a mesma ideia de identificador em texto.
+• Quais campos são opcionais e como o sistema trata o NULL deles?
+Só idade aceita NULL no banco. Pela tela ela é obrigatória, e o UsuarioDAO grava com setInt, então o sistema não grava
+NULL. Na leitura, rs.getInt("idade") transforma NULL em 0, de modo que um registro antigo com NULL apareceria com idade
+0. O comportamento vem da leitura do código; o teste T31 ainda está pendente
+
+esse responda também responda sem pensar no projeto em si
+
+
+na 3.5 use as imagens que coloquie na pasta imagens consulta SQL
+
+na 3.7 faça os efeitos que já existiam em 17/09
+
+na 5 da uma inventada coerente
+
+6 n precisa de hora 
+
+n precisa usar jtable
+
+8.1 coloquei junto com as imagens da consulta
+
+8.2 de os resultados 
+
+inventa a 9 tendo em vista a facilidade de carregar os treinos 
+
+10 tira os amarelos
+
+11.1 Version: 2026-06 (4.40.0)
+
+11.2 inventa com o nome Robson
+
+
+13 a 1 ficou confusa, inventa a 5 ,inveta a 7 
+

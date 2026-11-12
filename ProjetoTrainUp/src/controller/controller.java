@@ -53,7 +53,7 @@ public class controller {
 		abrirTelaInicial();
 	}
 
-	// Fecha a tela atual e mostra a nova
+	
 	private void mostrar(Icone tela) {
 		ligarMenu(tela);
 		if (telaAtual != null) {
@@ -63,7 +63,7 @@ public class controller {
 		tela.setVisible(true);
 	}
 
-	// Todas as telas tem o mesmo menu (Arquivo e Ajuda)
+
 	private void ligarMenu(Icone tela) {
 		tela.getMiLimpar().addActionListener(e -> tela.limparCampos());
 		tela.getMiSair().addActionListener(e -> System.exit(0));
